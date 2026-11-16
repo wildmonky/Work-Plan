@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <title>广东电网公司东莞供电局自动化值班日志记录</title>
+    <link rel="stylesheet" href="/kemp/ex_web/oms/app/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/kemp/ex_web/oms/app/css/default.css">
+    <link rel="stylesheet" href="/kemp/ex_web/oms/app/css/style.css">
+    <!-- <link rel="stylesheet" href="/kemp/ex_web/oms/app/css/order.css" /> -->
+    <script src="/kemp/ex_web/oms/app/js/jquery.min.js"></script>
+    <script src="/kemp/ex_web/oms/app/js/bootstrap.bundle.min.js"></script>
+    <script src="/kemp/ex_web/oms/app/js/vue.js"></script>
+    <script type="text/javascript" src="/kemp/ex_web/oms/app/js/aes.js"></script>
+    <script type="text/javascript" src="/kemp/ex_web/oms/app/js/common.js?33"></script>
+    <script src="/kemp/ex_web/oms/app/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="/kemp/ex_web/oms/app/css/bootstrap-select.min.css">
+    <style>
+		@media (min-width: 1400px) {
+		    .container, .main .container {
+		        max-width: 90%;
+		    }
+		}
+		.card,
+		.card .table-bordered th, .card .table-bordered td {
+		    border: 1px solid #111;
+		}
+		.card .table th, 
+		.card .table tr:first-child th {
+			border-top: 1px solid #111;
+		}
+        .table-action {
+            width: auto;
+            min-width: 150px;
+        }
+
+        .input-ab input.form-control {
+            position: absolute;
+            width: 160px;
+            left: 0;
+            z-index: 2;
+            border: 0;
+            background: none;
+            padding-left: 15px;
+        }
+
+        .input-ab select.form-control {
+            width: 180px;
+            padding-left: 11px;
+        }
+
+        .input-ab .form-control:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        input:-webkit-autofill,
+        input:-internal-autofill-selected {
+            background-color: transparent !important;
+            -webkit-text-fill-color: #ceedf2 !important;
+            transition: background-color 5000s ease-in-out 0s !important;
+        }
+
+        .logview-content p {
+            margin-top: .25rem;
+            margin-bottom: 0;
+            padding-top: .25rem;
+            border-top: 1px dotted rgba(33, 61, 109, .7);
+        }
+    </style>
+</head>
+
+<body onload="onLoad();">
+	<div class="container mt-3" id="_app_">
+		<div class="card ddbhgl-box mb-3">
+			<!-- 黏着在顶部 的 TABLE header  END-->
+			<!-- 循环内容开始 -->
+			<section th:each="logMap:${mapLogtype}">
+				<div class="p-3">
+					<a class="text-dark link-collapse" data-toggle="collapse" :data-target="'#tn1'"
+					   role="button" aria-expanded="true" aria-controls="ddbh-1">
+						<strong>待消缺主网自动化缺陷
+							（停留超<span style="color:red" th:text="${days}"></span>天）</strong>
+					</a>
+				</div>
+
+				<!-- 黏着在顶部 的 TABLE header-->
+				<div class="sticky-top">
+					<table class="table caption-top table-bordered table-nowrap mb-0">
+						<thead>
+							<tr>
+								<th class="w-xs text-center">序号</th>
+								<th>值班日志内容</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+
+				<div id="tn1" class="collapse show">
+					<!-- ///带字幕caption table -->
+					<table class="table caption-top table-bordered mb-0">
+						<tbody class="">
+							<tr th:each="itemInfo,itemIndex:${logMap.value}">
+								<td class="w-xs text-center"><span th:text="${itemIndex.count}"></span></td>
+								<td class="lh-lg logview-content" ><span th:utext="${itemInfo.CONTENT}"></span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</div>
+	</div>
+</body>
+
+</html>

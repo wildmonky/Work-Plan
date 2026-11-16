@@ -1,0 +1,103 @@
+spring:
+    config:
+        activate:
+            on-profile: prod
+    task:
+        scheduling:
+            pool:
+                size: 3
+    flyway:
+        enabled: true
+        user: sa
+        password: sa
+        encoding: UTF-8
+#        batch: false # 8.0.5 社区版不支持配置batch
+        create-schemas: true
+        schemas:
+            - OMS_ZF
+        default-schema: OMS_ZF # default-schema 必须在 schemas中包含
+        table: flyway_schema_history
+        # 第一次迁移时，在非空的schema(即已经存在数据表结构的数据库中，应用flyway)，是否创建基线
+        baseline-on-migrate: true
+        # 当在非空schema中创建基线时，对应的基线版本
+        baseline-version: 1
+#        target: 1
+        validate-on-migrate: true
+        validate-migration-naming: false
+        locations:
+            - classpath:db/migration
+    datasource:
+        embedded-database-connection: h2
+        hikari:
+            driver-class-name: org.h2.Driver
+            # jdbc:h2:mem:dbtest 内存模式.每次启动都要初始化
+            # jdbc:h2:file:${user.dir}/db/test 文件模式
+            jdbc-url: jdbc:h2:file:${user.dir}/db/test
+            schema: OMS_ZF
+            username: sa
+            password: sa
+            maximum-pool-size: 3
+        dynamic:
+            datasource:
+                master:
+                    auto-commit: 1
+                    driver-class-name: org.h2.Driver
+                    url: jdbc:h2:file:${user.dir}/db/test;schema=OMS_ZF
+                    username: sa
+                    password: sa
+                    max-conn: 3
+
+jodconverter:
+    enabled: true
+    local:
+        enabled: true
+        maxTasksPerProcess: 100
+        officeHome: C:\Program Files\LibreOffice
+        portNumbers: 8100
+    max-tasks-per-process: 10
+    port-numbers: 8100
+logging:
+    config: classpath:logback-spring.xml
+    file:
+        path: ${user.dir}/logs
+    level:
+        root: info
+
+mybatis-plus:
+    configuration:
+        map-underscore-to-camel-case: true
+
+work:
+    plan:
+        data:
+            url: http://127.0.0.1:8989/kemp/ex_web/ehvms/ehvms-server/work/plan/
+
+sys:
+    client_url: kemp/ex_web/oms/app
+    deptid_pwdd: 24662
+    deptid_zdheb: 25157
+    deptid_zdhyb: 27790
+    deptid_zwdd: 24274
+    efile_pdfview_path: ${user.dir}/tmp
+    efile_pdfwater_foot: 广州卓凡软件有眼公司
+    efile_pdfwater_markname: 东莞局OMS
+    efile_pdfwater_pageheader: 广东电网东莞供电局
+    efile_savepath: ${user.dir}/efile
+    eval-classpath: ${user.dir}/app/idea/oms-server/target/classes
+    import_template_dir: D:/workspace/dm/oms-server/src/main/resources/conf
+    jar-path: ${user.dir}/app/idea/oms-server/target/classes
+    kafka_appname: test
+    kafka_path_file: ${user.dir}/file
+    ocsid_dgwg: 8444261073289217
+    ocsid_dgzdzfh: 8444255022809092
+    ocsid_zdfh: 8444257205420033
+    ocsid_zgdl: 8444257888108545
+    pagetitle_login: 系统登录
+    querytsd_apiurl: http://localhost:8443/kemp/ex_web/oms/app/data/queryMultiTSD.json
+    querytsdex_apiurl: http://localhost:8443/kemp/ex_web/oms/app/data/querySingleTSDEx.json
+    tempfile_path: ${user.dir}/tmp
+    title: 东莞局OMS
+    trace_backupdir: ${user.dir}/trace_backup
+    trace_srcfile: ${user.dir}/trace_result.txt
+    trace_srcpath: ${user.dir}/trace
+    version: V1.0.0

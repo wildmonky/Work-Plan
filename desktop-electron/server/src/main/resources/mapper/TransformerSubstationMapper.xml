@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhuofan.oms.mapper.TransformerSubstationMapper">
+
+    <select id="selectExistedSubstationName" resultType="java.lang.String">
+        select SIMPDESC from CLOUD.TX6_DEV_ZWBDZ
+        where DESCRIPTION like '%站'
+        union
+        select SIMPDESC from CLOUD.TX6_DEV_PWBDZ
+        where DESCRIPTION like '%站';
+    </select>
+</mapper>

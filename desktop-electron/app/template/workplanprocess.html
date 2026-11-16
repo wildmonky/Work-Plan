@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<title></title>
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="../css/bootstrap-icons.css">
+		<link rel="stylesheet" href="../css/default.css">
+		<link rel="stylesheet" href="../css/style.css">
+		<link rel="stylesheet" href="../css/order.css">
+		<link rel="stylesheet" href="../css/bootstrap-datetimepicker.css">
+		<link rel="stylesheet" href="../css/layui.css">
+		<link rel="stylesheet" href="../css/layui-up.css">
+		
+		<script src="../js/jquery-1.9.1.min.js"></script>
+		<script src="../js/bootstrap.bundle.js"></script>
+		<script src="../js/vue.js"></script>
+		<script src="../js/global.js"></script>
+		<script src="../js/jquery.smart-form.js"></script>
+		<script src="../js/spin.min.js"></script>
+		<script src="../js/bootstrap-datetimepicker.js"></script>
+		<script src="../js/bootstrapValidator.min.js"></script>
+		<script src="../js/bootstrap-select.min.js"></script>
+		<script src="../js/common.js?444"></script>
+		<script src="../js/layer/layer.js"></script>
+		<link rel="stylesheet" href="../js/layer/skin/layer.css" id="layui_layer_skinlayercss">
+		<script src="../js/laydate5.3.1/laydate.js?8888"></script>
+		<link type="text/css" rel="stylesheet" href="../js/laydate5.3.1/theme/default/laydate.css">
+		
+		<script src="../js/layui.js"></script>
+		<script src="../js/aes.js"></script>
+		<script src="../js/datalist.js"></script>
+		<script src="../js/axios.min.js"></script>
+		<style>
+			.main-body{
+				display: flex;
+				flex-direction: column;
+				min-height: calc(100vh - 1rem);
+				min-width: 0;
+				transition: margin-left 0.35s ease-in-out, left 0.35s ease-in-out, margin-right 0.35s ease-in-out, right 0.35s ease-in-out;
+				width: 100%;
+			}
+			.table-responsive{
+				display: inherit;
+				width: 100%;
+				max-height: calc(100vh - 280px);
+				overflow: auto;
+			}
+			.card .table-bordered tr td.textwrap > span{
+				text-wrap: wrap;
+				word-wrap: break-word;
+				word-break: break-all;
+				white-space: pre-wrap;
+			}
+			.card .table-bordered tr td:last-child.textwrap > span{
+				white-space: nowrap;
+			}
+		</style>
+	</head>
+	<body>
+	<div class="container-fluid mt-3 d-flex" id="app">
+		<div class="main-body">
+			<div class="card mb-3">
+				<div class="card-header d-flex align-items-center">
+					<h3 class="text-center mb-0 flex-grow-1">
+						工作计划统计
+					</h3>
+				</div>
+				<div class="card-body pb-0">
+					<h3 class="mb-3">基础数据配置</h3>
+					<div class="list-group list-group-horizontal">
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="../datalist.html?dataname=WORK_UNIT">工作单位</a>
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="../datalist.html?dataname=TRANSFORMER_SUBSTATION">变电站</a>
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="../datalist.html?dataname=CREW">班组</a>
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="../datalist.html?dataname=CREW_MEMBER">班组成员</a>
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="../datalist.html?dataname=SECOND_PLAN_RECORD">计划作业数量</a>
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="workPlanEveryWeekUpload.html">系统运行专业作业计划周管控会汇报材料上传</a>
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="../datalist.html?dataname=WORK_PLAN_LOAD_RATIO">饱和度系数配置</a>
+					</div>
+					<hr />
+					<h3 class="mb-3">日计划分析功能：</h3>
+					<div class="list-group list-group-horizontal">
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="workplanprocess2.html">智慧安监工作计划统计</a>
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="workplanAnalysis.html">电网管理平台工作计划统计</a>
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="workplanAnalysisAuto.html">电网管理平台(自动数据获取)工作计划统计</a>
+						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="../datalist.html?dataname=CREW_WORK_LOAD_RATE_DAY_RECORD">班组饱和度查询</a>
+					</div>
+					<hr />
+<!--					<h3 class="mb-3">发送信息功能：</h3>-->
+<!--					<div class="list-group list-group-horizontal">-->
+<!--						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="messageSend.html">信息发送</a>-->
+<!--						<a class="mb-3 mr-3 btn btn-outline-primary" target="_blank" href="../datalist.html?dataname=WORK_PLAN_SEND_MESSAGE_RECORD">作业计划信息发送记录</a>-->
+<!--					</div>-->
+				</div>
+			</div>
+		</div>
+	</div>
+					
+	<script src="../js/simplebar.js"></script>
+    <script type="text/javascript">
+
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					spinner: {},
+					instance: {},
+					date: new Date().toLocaleDateString().replaceAll("/", "-"),
+					checkFiles: [],
+					tableData: [],
+					tableData1: [],
+					filenames: [
+						{
+							type: "export_tomorrow",
+                            name: "调控中心作业计划（主调、配调、二次）.xlsx",
+							isCreate: true
+						},
+						{
+							type: "message",
+							name: "生成的重要信息.txt",
+							isCreate: true
+						},
+						{
+							type: "export_img",
+							name: "调控中心作业计划风险管控.png",
+							isCreate: true
+						},
+						{ 
+							type: "check",
+							name: "管控、非管控文件.xlsx"
+						},
+						{
+							type: "master",
+                            name: "主调文件.xlsx"
+						},
+						{
+							type: "sub",
+                            name: "配调文件.xlsx"
+						},
+						// {
+						// 	type: "risk_alarm",
+                        //     name: "系统运行专业作业计划周管控会汇报材料.docx"
+						// },
+						{
+							type: "data",
+							name: "计划管控excel.xlsm"
+						}
+					]
+				};
+			},
+			created() {
+				var opts = {
+					lines:13,// loading小块的数量
+					length: 7, // 小块的长度
+					width: 4, // 小块的宽度
+					radius: 10, // 整个圆形的半径
+					corners: 1, // 小块的圆角，越大则越圆
+					rotate: 0, // loading动画的旋转度数，貌似没什么实际作用
+					color: '#000', // 颜色
+					speed: 1,// 变换速度
+					trail: 60,// 余晖的百分比
+					shadow: true,// 是否渲染出阴影
+            	};
+
+				this.spinner = new Spinner(opts);
+
+				this.instance = axios.create({
+					baseURL: _sys_baseurl,
+					timeout: 240000,
+					adapter: 'fetch'
+				});
+				// 响应拦截， 未登录跳转
+                this.instance.interceptors.response.use(function(response) {
+					let errorCode = response.data['err_code']
+                    if (errorCode == '300099') {
+                        //重新登录;
+                        var url_login="../../../login.html?err_code=" + errorCode;
+                        if (window.parent.parent){
+                            window.parent.parent.location=url_login;
+                        }else if (window.parent){
+                            window.parent.location=url_login;
+                        }else{
+                            window.location=url_login;
+                        }
+                    }
+
+					let errorMsg = response.data['err_msg'];
+					if (errorMsg) {
+						alert(errorMsg);
+					}
+                    return response;
+                }, function(error) {
+                    return Promise.reject(error);
+                })
+			},
+			mounted() {
+				// this.searchByDate();
+			},
+			methods: {
+				searchByDate(date) {
+					this.date = date ? date.target.value : this.date;
+					this.spinner.spin($('body')[0]);
+					this.tableData = [];
+					this.tableData1 = [];
+					this.instance.get("/work/plan/date/files?type=&date=" + this.date).then(result => {
+						// 排序
+						for (const e of result.data) {
+							let data = this.filenames.filter(d => e.startsWith(d.type))[0];
+							if (data) {
+								data.isCreate ? this.tableData1.push(e) : this.tableData.push(e);
+                            }
+						}
+					}).catch(err => {
+						console.log(err);
+					}).finally(_ => {
+						this.spinner.stop();
+					})
+				},
+				uploadFiles(type) {
+					let files = this.$refs[type].files;
+					let formData = new FormData();
+
+					formData.append("type", type);
+					formData.append("date", this.date);
+					for (const file of files) {
+						formData.append("files", file);
+					}
+
+					this.spinner.spin($('body')[0]);
+					this.instance.post('/work/plan', formData)
+                    .then(response => {})
+                    .catch(err => alert(err))
+                    .finally(_ => {
+						this.$refs[type].value = ''
+						this.searchByDate();
+                        this.spinner.stop();
+                    });
+
+				},
+				analysis() {
+					$('button').attr('disabled', 'disabled'); 
+					this.spinner.spin($('body')[0]);
+					this.instance.get('/work/plan/analysis/' + this.date,{
+						params: {
+							"cellColumnName": this.$refs['cellColumnName'].value
+						}
+					}).finally(() => {
+						$('button').removeAttr('disabled'); 
+                        this.spinner.stop();
+						this.searchByDate()
+					});
+				},
+				download(filename) {
+					$('button').attr('disabled', 'disabled'); 
+					this.spinner.spin($('body')[0]);
+					this.instance.get('/work/plan/download/' + this.date + '/' + filename, { responseType: 'blob' })
+					.then(response => {
+						if (response.headers['content-type'] === 'application/json') {
+							let messageBlob = new Blob([response.data], {type: 'application/json'});
+							let fileReader = new FileReader();
+							fileReader.readAsText(messageBlob);
+							fileReader.onload = function(event) {
+								let messageStr = fileReader.result;
+								let message = JSON.parse(messageStr)
+								alert(message["err_msg"]);
+								//重新登录;
+								var url_login="../../../login.html?err_code=" + message["err_code"];
+								if (window.parent.parent){
+									window.parent.parent.location=url_login;
+								}else if (window.parent){
+									window.parent.location=url_login;
+								}else{
+									window.location=url_login;
+								}
+							};
+						} else {
+							// 下载文件
+							let content = response.headers['content-disposition'];
+							let filename = content.substring(content.indexOf('filename=') + 9);
+							var blob = new Blob([response.data],  { type: "application/octet-stream;charset=ISO8859-1"});
+							var downloadUrl = URL.createObjectURL(blob);
+							var a = document.createElement('a');
+							a.href = downloadUrl;
+							a.download = this.date.replace('-', '年').replace('-', '月') + '日' + this.filenames.filter(e => filename.startsWith(e.type))[0]?.name;
+							a.click();
+							URL.revokeObjectURL(downloadUrl); // 释放掉blob URL对象
+					   }
+			        })
+					.catch(err => console.log(err))
+					.finally(() => {
+					    this.spinner.stop();
+					    $('button').removeAttr('disabled');
+					});
+				},
+				remove(filename) {
+					$('button').attr('disabled', 'disabled'); 
+					this.spinner.spin($('body')[0]);
+					this.instance.get('/work/plan/remove/' + this.date + '/' + filename)
+					.then(response => {
+					    alert("文件删除成功");
+						this.searchByDate();
+					})
+					.catch(err => {
+						console.log(err)
+					})
+					.finally(() => {
+					    this.spinner.stop();
+					    $('button').removeAttr('disabled');
+					});
+				}
+			}
+		})
+	</script>
+	
+</body>
+
+</html>

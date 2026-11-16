@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhuofan.oms.mapper.workplan.auto.WorkPlanDataAutoModelMapper">
+
+    <resultMap id="parseResultMap" type="com.zhuofan.oms.service.workplan2.WorkPlanDataAutoModel">
+        <id column="id" property="id"/>
+        <result column="company" property="company"/>
+        <result column="power_supply_bureau" property="powerSupplyBureau"/>
+        <result column="work_dept_oname" property="projectManageUnit"/>
+        <result column="plan_code" property="workPlanCode"/>
+        <result column="risk_level" property="riskLevel"/>
+        <result column="working" property="workStatus"/>
+        <result column="speciality_big" property="workProfession"/>
+        <result column="speciality" property="workClass"/>
+        <result column="special_work_item" property="workClassDetail"/>
+        <result column="work_type" property="workType"/>
+        <result column="work_major" property="workMajor"/>
+        <result column="work_unit" property="workUnit"/>
+        <result column="work_team_oname" property="workCrew"/>
+        <result column="job_content" property="workContent"/>
+        <result column="work_site_names" property="workLocation"/>
+        <result column="work_master_uname" property="workResponsiblePerson"/>
+        <result column="work_master_phone" property="workResponsiblePersonPhone"/>
+        <result column="plan_begin_time" property="planStartTime"/>
+        <result column="plan_end_time" property="planEndTime"/>
+        <result column="real_begin_time" property="planActualStartTime"/>
+        <result column="real_end_time" property="planActualEndTime"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="plan_task_type" property="planType"/>
+        <result column="plan_class" property="planClass"/>
+        <result column="work_mode" property="workMode"/>
+        <result column="need_video_surveillance" property="needVideoSurveillance"/>
+        <result column="bind_video_surveillance" property="bindVideoSurveillance"/>
+        <result column="monitor_work" property="monitorWork"/>
+        <result column="need_ticket" property="needTicket"/>
+        <result column="prospect_mode" property="prospectMode"/>
+        <result column="need_tools" property="needTools"/>
+        <result column="existed_key_flow" property="existedKeyFlow"/>
+        <result column="worker_num" property="workerNum"/>
+        <result column="voltage_level" property="voltageLevel"/>
+        <result column="plan_source_type" property="workOrigin"/>
+        <result column="work_member_unames" property="workMembers"/>
+        <result column="construction_project_manager" property="constructionProjectManager"/>
+        <result column="is_need_use_fire" property="isNeedUseFire"/>
+        <result column="creator_uname" property="creator"/>
+    </resultMap>
+
+    <sql id="select_where">
+        <where>
+            <if test="query.id != null">
+                id like '%' || #{query.id} || '%'
+            </if>
+            <if test="query.workPlanCode != null and query.workPlanCode != ''">
+                and plan_code like '%' || #{query.workPlanCode} || '%'
+            </if>
+            <if test="query.riskLevels != null and query.riskLevels.length > 0">
+                and risk_level in
+                <foreach collection="query.riskLevels" item="risk" open="(" close=")" separator=",">
+                    #{risk}
+                </foreach>
+            </if>
+            <if test="query.workStatuses != null and query.workStatuses.length > 0">
+                and working in
+                <foreach collection="query.workStatuses" item="workStatus" open="(" close=")" separator=",">
+                    #{workStatus}
+                </foreach>
+            </if>
+            <if test="query.workTypes != null and query.workTypes.length > 0">
+                and work_type in
+                <foreach collection="query.workTypes" item="workTypeValue" open="(" close=")" separator=",">
+                    #{workTypeValue}
+                </foreach>
+            </if>
+            <if test="query.workProfessions != null and query.workProfessions.length > 0">
+                and speciality_big in
+                <foreach collection="query.workProfessions" item="profession" open="(" close=")" separator=",">
+                    #{profession}
+                </foreach>
+            </if>
+            <if test="query.workCrew != null and query.workCrew != ''">
+                and work_team_oname like '%' || #{query.workCrew} || '%'
+            </if>
+            <if test="query.workLocation != null and query.workLocation != ''">
+                and work_site_names like '%' || #{query.workLocation} || '%'
+            </if>
+            <if test="query.workResponsiblePerson != null and query.workResponsiblePerson != ''">
+                and work_master_uname like '%' || #{query.workResponsiblePerson} || '%'
+            </if>
+            <if test="query.planStartTime != null and query.planEndTime == null">
+                and plan_begin_time >= #{query.planStartTime}
+            </if>
+            <if test="query.planStartTime == null and query.planEndTime != null">
+                and plan_end_time &lt;= #{query.planEndTime}
+            </if>
+            <if test="query.planStartTime != null and query.planEndTime != null">
+                and plan_begin_time &lt;= #{query.planEndTime} and plan_end_time >= #{query.planStartTime}
+            </if>
+            <if test="query.planActualStartTime != null">
+                and real_begin_time >= #{query.planActualStartTime}
+            </if>
+            <if test="query.planActualEndTime != null">
+                and real_end_time &lt;= #{query.planActualEndTime}
+            </if>
+            <if test="query.planType != null and query.planType != ''">
+                and plan_type in '(' || #{query.planType} || ')'
+            </if>
+            <if test="query.workOrigin != null and query.workOrigin != ''">
+                and plan_source_type in '(' || #{query.workOrigin} || ')'
+            </if>
+            <if test="query.workMembers != null and query.workMembers != ''">
+                and work_member_unames in '%' || #{query.workMembers} || '%'
+            </if>
+            <if test="query.creator != null and query.creator != ''">
+                and creatort_unames in '%' || #{query.creator} || '%'
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectByPage" resultType="com.zhuofan.oms.service.workplan2.WorkPlanDataAutoModel" resultMap="parseResultMap">
+        select * from  XXZXHL.SCY170_SP_PD_OPERMAINTENCE_SP_PD_PP_PLAN_03
+        <include refid="select_where"/>
+        limit ${(pageNo - 1) * pageSize}, ${pageSize}
+    </select>
+    <select id="selectCountByPage" resultType="java.lang.Long">
+        select count(*) from  XXZXHL.SCY170_SP_PD_OPERMAINTENCE_SP_PD_PP_PLAN_03
+        <include refid="select_where"></include>
+    </select>
+    <select id="selectRiskLevelCountByPage" resultType="com.zhuofan.oms.model.workplan.WorkPlanRiskLevelCountModel">
+        select
+            risk_level, count(*) count
+        from  XXZXHL.SCY170_SP_PD_OPERMAINTENCE_SP_PD_PP_PLAN_03
+        <include refid="select_where"></include>
+        group by risk_level
+    </select>
+    <select id="selectWorkStatusNum" resultType="com.zhuofan.oms.model.workplan.WorkPlanStatusModel">
+        SELECT
+            WORKING as status, COUNT(1) as count
+        FROM XXZXHL."SCY170_SP_PD_OPERMAINTENCE_SP_PD_PP_PLAN_03"
+        WHERE PLAN_BEGIN_TIME &lt;= #{endTime} AND PLAN_END_TIME >= #{beginTime}
+        GROUP BY WORKING
+    </select>
+    <select id="selectAll" resultType="com.zhuofan.oms.service.workplan2.WorkPlanDataAutoModel" resultMap="parseResultMap">
+        select * from  XXZXHL.SCY170_SP_PD_OPERMAINTENCE_SP_PD_PP_PLAN_03
+        <include refid="select_where"></include>
+    </select>
+    <select id="selectAllForStatistics" resultType="com.zhuofan.oms.service.workplan2.WorkPlanDataAutoModel">
+        select
+            plan_code as work_plan_code,
+            risk_level,
+            work_type,
+            work_site_names as work_location
+        from  XXZXHL.SCY170_SP_PD_OPERMAINTENCE_SP_PD_PP_PLAN_03
+        <include refid="select_where"></include>
+    </select>
+
+</mapper>

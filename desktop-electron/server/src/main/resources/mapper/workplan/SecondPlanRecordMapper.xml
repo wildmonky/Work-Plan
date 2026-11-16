@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhuofan.oms.mapper.SecondPlanRecordMapper">
+    <select id="selectAverageNum" resultType="java.lang.Integer">
+        SELECT
+            CASE WHEN AVG(num) is  null THEN 0 ELSE AVG(num) END CASE
+        FROM second_plan_record
+        where time >= #{beginDate}
+        and time &lt;= #{endDate}
+    </select>
+</mapper>

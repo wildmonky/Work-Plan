@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<!--{文件位置：系统根目录/conf/CIMParserService/conf.xml}-->
+<!--{文件说明：解析EMS系统提供的模型文件，支持全网模型、站点模型、增量模型}-->
+
+<CIMParser>
+
+	<!--{系统设置}-->
+	<backupDir>/home/oms_data/data/Alarm</backupDir>
+
+	<!--{开关跳闸配置:BRKSLIP}-->
+	<BRKSLIP>
+		<system>
+			<readFlag>#</readFlag>
+			<seqName>SEQ</seqName>
+			<tableType>master</tableType>
+			<updateType>insert</updateType>
+			<tableName>OMS_SCADA_KGTZ</tableName>
+			<fieldID>SCADA_KGTZ_ID</fieldID>
+			<fieldList>AREA,SOURCE_SYSTEM,CREATE_TIME</fieldList>
+			<fieldContent>1,2,3</fieldContent>
+			<remark>@,地区,系统,时间,可读时间</remark>			
+		</system>
+
+		<BreakerSlipOff>
+			<readFlag>#</readFlag>
+			<tableType>master</tableType>
+			<updateType>update</updateType>
+			<tableName>OMS_SCADA_KGTZ</tableName>
+			<fieldID>SCADA_KGTZ_ID</fieldID>
+			<fieldList>BRK_NAME,BRK_ID,SUBSTATION_NAME,EQU_ID,EQU_NAME,BWXX,VOL_LEVEL,SINGLE,ACTION_TIME,CHZ_SINGLE,FUHE,SUBSTATION_ID</fieldList>
+			<fieldContent>1,2,3,4,5,6,7,8,9,10,11,12</fieldContent>
+			<fieldTime>9</fieldTime>
+			<remark>@,开关名称,开关ID,所属变电站,设备ID,设备名称,变位信息,电压等级,告警信号,开关动作时间,重合闸状态,损失负荷,变电站ID,损失用户</remark>
+		</BreakerSlipOff>
+
+		<Alarm>
+			<readFlag>#</readFlag>
+			<seqName>SEQ</seqName>
+			<tableName>OMS_SCADA_KGTZ_ALARM</tableName>
+			<fieldID>SCADA_KGTZ_ALARM_ID</fieldID>
+			<fieldList>ALARM_TIME,CONTENT,ACTION,ALARM_GROUP</fieldList>
+			<fieldContent>1,2,3,4</fieldContent>
+			<fieldTime>1</fieldTime>
+			<remark>@,时间,内容,动作,告警组</remark>
+		</Alarm>
+
+		<SOE>
+			<readFlag>#</readFlag>
+			<seqName>SEQ</seqName>
+			<tableName>OMS_SCADA_KGTZ_SOE</tableName>
+			<fieldID>SCADA_KGTZ_SOE_ID</fieldID>
+			<fieldList>FILELOG_TIME,SOE_TIME,CONTENT,ACTION,ACTION_DESC</fieldList>
+			<fieldContent>1,2,3,4,5</fieldContent>
+			<fieldTime>1,2</fieldTime>
+			<remark>@,时间,SOE时间,内容,动作,告警组</remark>
+		</SOE>
+	</BRKSLIP>
+
+	<BRKOPEN>
+		<system>
+			<readFlag>#</readFlag>
+			<seqName>SEQ</seqName>
+			<tableType>master</tableType>
+			<updateType>insert</updateType>
+			<tableName>OMS_SCADA_KGTZ</tableName>
+			<fieldID>SCADA_KGTZ_ID</fieldID>
+			<fieldList>AREA,SOURCE_SYSTEM,CREATE_TIME</fieldList>
+			<fieldContent>1,2,3</fieldContent>
+			<remark>@,地区,系统,时间,可读时间</remark>			
+		</system>
+
+		<BreakerSlipOff>
+			<readFlag>#</readFlag>
+			<tableType>master</tableType>
+			<updateType>update</updateType>
+			<tableName>OMS_SCADA_KGTZ</tableName>
+			<fieldID>SCADA_KGTZ_ID</fieldID>
+			<fieldList>BRK_NAME,BRK_ID,SUBSTATION_NAME,EQU_ID,EQU_NAME,BWXX,VOL_LEVEL,SINGLE,ACTION_TIME,CHZ_SINGLE,SUBSTATION_ID,FUHE</fieldList>
+			<fieldContent>1,2,3,4,5,6,7,8,9,10,11,12</fieldContent>
+			<fieldTime>9</fieldTime>
+			<remark>@,开关名称,开关ID,所属变电站,设备ID,设备名称,变位信息,电压等级,告警信号,开关动作时间,重合闸状态,变电站ID,损失负荷,</remark>
+		</BreakerSlipOff>
+
+		<Alarm>
+			<readFlag>#</readFlag>
+			<seqName>SEQ</seqName>
+			<tableName>OMS_SCADA_KGTZ_ALARM</tableName>
+			<fieldID>SCADA_KGTZ_ALARM_ID</fieldID>
+			<fieldList>ALARM_TIME,CONTENT,ACTION,ALARM_GROUP</fieldList>
+			<fieldContent>1,2,3,4</fieldContent>
+			<fieldTime>1</fieldTime>
+			<remark>@,时间,内容,动作,告警组</remark>
+		</Alarm>
+
+		<SOE>
+			<readFlag>#</readFlag>
+			<seqName>SEQ</seqName>
+			<tableName>OMS_SCADA_KGTZ_SOE</tableName>
+			<fieldID>SCADA_KGTZ_SOE_ID</fieldID>
+			<fieldList>FILELOG_TIME,SOE_TIME,CONTENT,ACTION,ACTION_DESC</fieldList>
+			<fieldContent>1,2,3,4,5</fieldContent>
+			<fieldTime>1,2</fieldTime>
+			<remark>@,时间,SOE时间,内容,动作,告警组</remark>
+		</SOE>
+	</BRKOPEN>
+
+	<!--{母线失压配置}-->
+	<MXSY>
+		<system>
+			<readFlag>#</readFlag>
+			<seqName>SEQ</seqName>
+			<tableType>master</tableType>
+			<updateType>insert</updateType>
+			<tableName>OMS_SCADA_MXSY</tableName>
+			<fieldID>SCADA_MXSY_ID</fieldID>
+			<fieldList>AREA,SOURCE_SYSTEM,CREATE_TIME</fieldList>
+			<fieldContent>1,2,3</fieldContent>
+			<remark>@,地区,系统,时间,可读时间</remark>			
+		</system>
+
+		<BusVoltageLose>
+			<readFlag>#</readFlag>
+			<tableType>master</tableType>
+			<updateType>update</updateType>
+			<tableName>OMS_SCADA_MXSY</tableName>
+			<fieldID>SCADA_MXSY_ID</fieldID>
+			<fieldList>GENERATRIX_NAME,GENERATRIX_ID,SUBSTATION_NAME,ACTION_TIME,VOLTAGE_LEVEL,SIGNAL_TYPE,LINE_IDS,LINE_NAMES,SUBSTATION_ID,LOSS_LOAD</fieldList>
+			<fieldContent>1,2,3,4,5,6,7,8,9,10</fieldContent>
+			<fieldTime>4</fieldTime>						
+			<remark>@,母线名称,母线ID,所属变电站,发生时间,电压等级,信号类型,线路/负荷名称,线路/负荷ID,变电站ID,损失负荷</remark>				
+		</BusVoltageLose>
+
+		<Devices>
+			<readFlag>#</readFlag>
+			<seqName>SEQ</seqName>
+			<tableName>OMS_SCADA_MXSY_LINE</tableName>
+			<fieldID>SCADA_MXSY_LINE_ID</fieldID>
+			<fieldList>LINE_NAME,LINE_ID,ACTION_TIME,LOSS_LOAD</fieldList>
+			<fieldContent>1,2,3,4</fieldContent>
+			<fieldTime>3</fieldTime>
+			<remark>@,失压设备名称,失压设备ID,跳闸时间,保护信息</remark>			
+		</Devices>
+	</MXSY>
+
+	<!--{全站失压配置}-->
+	<QZSY>
+		<system>
+			<readFlag>#</readFlag>
+			<seqName>SEQ</seqName>
+			<tableType>master</tableType>
+			<updateType>insert</updateType>
+			<tableName>OMS_SCADA_QZSY</tableName>
+			<fieldID>SCADA_QZSY_ID</fieldID>
+			<fieldList>AREA,SOURCE_SYSTEM,CREATE_TIME</fieldList>
+			<fieldContent>1,2,3</fieldContent>
+			<remark>@,地区,系统,时间,可读时间</remark>				
+		</system>
+
+		<SubstationVoltageLose>
+			<readFlag>#</readFlag>
+			<tableType>master</tableType>
+			<updateType>update</updateType>
+			<tableName>OMS_SCADA_QZSY</tableName>
+			<fieldID>SCADA_QZSY_ID</fieldID>
+			<fieldList>SUBSTATION_NAME,SUBSTATION_ID,ACTION_TIME,SINGLE_TYPE,LOSS_LOAD</fieldList>
+			<fieldContent>1,2,3,4,5</fieldContent>
+			<fieldTime>3</fieldTime>						
+			<remark>@,变电站名称,变电站ID,失压发生时间,信号类型,损失负荷</remark>
+		</SubstationVoltageLose>
+	</QZSY>
+
+</CIMParser>

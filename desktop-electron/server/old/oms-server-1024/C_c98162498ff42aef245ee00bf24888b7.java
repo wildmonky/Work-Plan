@@ -1,0 +1,18 @@
+import com.zhuofan.core.datasource.JdbcDao;
+import com.zhuofan.core.common.CommonFunc;
+import com.zhuofan.core.common.CommonObject;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import com.zhuofan.core.eval.Eval;
+import com.zhuofan.core.orm.model.*;
+import com.zhuofan.core.orm.dao.*;
+public class C_c98162498ff42aef245ee00bf24888b7
+{
+    public Object getEvalResult(HashMap mapRow) throws Exception
+    {
+        String pdname = (mapRow.get("OMS_JZB_ID")==null || mapRow.get("OMS_JZB_ID").toString().trim().isEmpty())?"add":"edit";
+String url="javascript:window.open('dataadd.html?dataname=OMS_JZB_EDIT&&actiontype="+pdname+"&pk_id="+mapRow.get("ID")+"');";
+return url;
+
+    }
+}

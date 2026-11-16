@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhuofan.oms.mapper.workplan.CrewWorkLoadRateDayRecordMapper">
+
+    <resultMap id="crewWithFullShortName" type="com.zhuofan.oms.model.workplan.CrewWorkLoadRateModel">
+        <id property="id" column="id"/>
+        <result property="date" column="date"/>
+        <result property="unitCrewShortName" column="unit_crew_short_name"/>
+        <result property="memberName" column="member_name"/>
+        <result property="sumRatio" column="sum_ratio"/>
+        <result property="workerNum" column="worker_num"/>
+        <result property="rate" column="rate"/>
+<!--        <association property="crew"  columnPrefix="crew_">-->
+<!--            <id property="id" column="id"/>-->
+<!--            <result property="name" column="name"/>-->
+<!--            <result property="shortName" column="short_name"/>-->
+<!--            <result property="unitId" column="unit_id"/>-->
+<!--            <result property="type" column="type"/>-->
+<!--        </association>-->
+    </resultMap>
+
+
+    <select id="selectByDateRange" resultMap="crewWithFullShortName">
+        SELECT
+            (case when wu.SHORT_NAME IS NULL OR wu.SHORT_NAME = '' OR crew.SHORT_NAME IS NULL OR crew.SHORT_NAME = '' then crew.name else CONCAT(wu.SHORT_NAME, crew.SHORT_NAME) end) as unit_crew_short_name
+            ,record.id
+            --,record.crew_id
+            ,record.DATE, record.MEMBER_NAME, record.SUM_RATIO, record.WORKER_NUM, record.RATE
+            ,crew.id crew_id
+            --,crew.UNIT_ID crew_unit_id
+            --,crew.NAME crew_name
+            --,crew.TYPE crew_type
+            --,crew.SHORT_NAME crew_short_name
+        FROM (
+            select *
+            from OMS_ZF.CREW
+            where NAME not like '%分部%' and NAME not like '%项目中心%'
+        ) crew
+        LEFT JOIN OMS_ZF.WORK_UNIT wu on crew.UNIT_ID = wu.ID
+        LEFT JOIN (
+            select *
+            from oms_zf.crew_work_load_rate_day_record
+            where DATE >= #{startDate} and DATE &lt; #{endDate} and MEMBER_NAME in ('工作负责人', '作业人员')
+        ) record on record.CREW_ID = crew.ID
+        order by record.DATE
+    </select>
+</mapper>

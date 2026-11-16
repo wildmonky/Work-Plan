@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhuofan.oms.mapper.CrewMapper">
+    <select id="searchAll" resultType="com.zhuofan.oms.model.CrewModel">
+        SELECT
+            (case when wu.SHORT_NAME IS NULL OR wu.SHORT_NAME = '' OR crew.SHORT_NAME IS NULL OR crew.SHORT_NAME = '' then crew.name else CONCAT(wu.SHORT_NAME, crew.SHORT_NAME) end) as short_name_with_unit
+            ,crew.id
+            ,crew.UNIT_ID
+            ,crew.NAME
+            ,crew.TYPE
+            ,crew.SHORT_NAME
+        FROM OMS_ZF.CREW crew
+        LEFT JOIN OMS_ZF.WORK_UNIT wu on crew.UNIT_ID = wu.ID
+    </select>
+</mapper>

@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: workplan-ai
+
+  ai:
+    model:
+      chat: qwen3-vl:8b-instruct-q4_K_M
+      embedding:
+        text: qwen3-embedding:8b
+
+    ollama:
+      base-url: http://192.168.1.177:11434
+
+    vectorstore:
+      observations:
+        log-query-response: true
+      qdrant:
+        host: 192.168.1.177
+        port: 6334
+        collection-name: workplan
+        api-key:
+        initialize-schema: true
+
+
+  datasource:
+    driver-class-name: dm.jdbc.driver.DmDriver
+
+
+
+    hikari:
+      driver-class-name: com.zaxxer.hikari.HikariDataSource
+      connection-test-query: select 1 from dual
+
+
+

@@ -1,0 +1,46 @@
+{
+  "name": "my-electron-app",
+  "version": "1.0.0",
+  "description": "Hello World!",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app:dir": "electron-builder --dir",
+    "app:dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "author": "lizhao",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^44.2.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "work-plan-v0.0.1",
+    "win": {
+      "target": "msi"
+    },
+    "files": [
+      "images",
+      "js",
+      "css",
+      "resources",
+      "!resources/jre**",
+      "!resources/*.jar",
+      "template",
+      "*.js",
+      "*.html"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/jre1.8.0_411",
+        "to": "jre1.8.0_411"
+      },
+      {
+        "from": "resources/app.jar",
+        "to": "app.jar"
+      }
+    ]
+  }
+}

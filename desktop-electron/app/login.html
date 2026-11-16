@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<title></title>
+		<link rel="stylesheet" href="css/bootstrap-icons.css">
+		<link rel="stylesheet" href="css/default.css">
+		<link rel="stylesheet" href="css/style.css">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.bundle.min.js"></script>
+		<script src="js/vue.js"></script>
+		<script type="text/javascript" src="js/aes.js"></script>
+		<script type="text/javascript" src="js/common.js?33"></script>
+	</head>
+
+	<body>
+		<div id="_app_" class="vh-100">
+			<form name="form" id="formLogin" action="" method="post" class="h-100 w-100 d-flex align-items-center pb-5">
+				<div class="d-flex flex-column w-100">
+					<div class="container d-flex justify-content-start align-items-center py-3">
+						<div class="pr-3 login-logo"><img src="images/zip.png"></div>
+						<div class="f24 font-weight-bold text-white" >
+							<!-- <span v-html="sys_title"></span> -->
+							<span class="f12 text-muted pl-3 font-weight-normal">版本：<span v-html="sys_version"></span></span>
+						</div>
+					</div>
+					<div class="login-box d-flex">
+						<div class="container h-100 d-flex align-items-center justify-content-end">
+							<div class="card text-white bg-primary">
+								<div class="card-header">用户登录</div>
+								<div class="card-body bg-white">
+									<div class="has-feedback">
+										<span style="color:red" v-html="err_msg"></span>
+									</div>
+									<div class="login-box_input mt-3 has-feedback form-group">
+										<i class="bi bi-person icon"></i>
+										<label for="username" class="sr-only">用户名</label>
+										<input class="form-control" id="username" name="username" type="text" value="admin" placeholder="用户名">
+									</div>
+									<div class="login-box_input mt-3 has-feedback form-group">
+										<i class="bi bi-key icon"></i>
+										<label for="password" class="sr-only">密码</label>
+										<input autocomplete="off" class="form-control" id="password" type="password" name="password"  value="abc@123!" placeholder="密码">
+									</div>
+									<server-key v-bind:server_key="server_key" v-bind:server_iv="server_iv"></server-key>
+									<input class="btn btn-primary btn-block mt-3" type="button" value="登 录" name="btnSubmit" onclick="do_login()">
+									<span style="color:red;" v-html="login_notice"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="text-center f12 py-3 text-secondary">版权所有</div>
+				</div>
+			</form>
+		</div>
+	</body>
+	
+	<script>
+		function onLoad(){
+			var query = window.location.search.substring(1);
+			$.ajax({
+				url:_sys_baseurl+"/Login?"+query,
+				success: function(result) {
+					vueDisplay("#_app_",result, 1, null, do_login);
+				}
+			});
+		}
+
+		function do_login() {
+			if(($("#username").val() == "") || ($("#password").val() == "")) {
+				alert("请输入用户名与密码！");
+				return false;
+			}
+
+
+			var str = "username=" + $("#username").val() + "&password=" + $("#password").val() + "&";
+			var str_encrypt = Encrypt(str);
+
+			$("#_client_sign_").val(str_encrypt);
+			$("#username").val("");
+			$("#password").val("");
+
+			var data = $("#formLogin").serialize(); // 表单序列化提交
+			console.log("request data: " + data)
+			$.ajax( {
+				type : 'POST',
+				url : _sys_baseurl+'/Login/Check',
+				data : data,
+				success : function(data) {
+					// do_login_suss(data);
+					console.log("登录成功，跳转首页" + data)
+					window.location.href = 'app://workplan.com/template/workplanprocess.html';
+				},
+				error:function(XMLHttpRequest, textStatus, errorThrown){
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});
+
+		}
+
+		/*
+		处理登录后
+		*/
+	   function do_login_suss(data){
+		   if (data.result === "0"){
+				window.location="login.html?err_code="+data.err_code;
+		   }else{
+			   window.location="home.html";
+		   }
+	   }
+
+		document.addEventListener("DOMContentLoaded", function() {
+			onLoad()
+		})
+	</script>
+
+</html>
+

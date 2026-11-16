@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<meta name="description" content="overview &amp; stats" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+	<!-- bootstrap & fontawesome -->
+	<link rel="stylesheet" href="css/bootstrap-icons.css">
+	<link rel="stylesheet" href="js/floatswitch/style.css">
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.css" />
+	<link rel="stylesheet" href="css/bootstrap-select.min.css">
+	<link rel="stylesheet" href="css/bootstrapSwitch.css">
+
+	<link rel="stylesheet" href="css/default.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/order.css" />
+
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/vue.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/jquery.smart-form.js"></script>
+	<script src="js/bootstrap-datetimepicker.js"></script>
+	<script src="js/bootstrapValidator.min.js"></script>
+	<script src="js/bootstrap-select.js"></script>
+	<script src="js/common.js?3333"></script>
+	<script src="js/layer/layer.js"></script>
+	<script src="js/laydate5.3.1/laydate.js"></script>
+	<script src="js/aes.js"></script>
+	<script src="js/bootstrap-select.min.js"></script>
+	<script src="js/flow/flowform.js"></script>
+
+	<script src="js/bootstrap-switch.js"></script>
+</head>
+
+<body onload="setTimeout('jsCommon.lockPage()',1000*3600);">
+	<div class="container py-3" id="_app_">
+		<FORM class="valid-tip" action="/Data/Save" method="post" enctype="multipart/form-data" name="formData"
+			id="formData">
+			<div class="card p-3 mb-3">
+				<div class="top-t d-none">
+					<div class="top-t-view">
+						<ul>
+							<li class="l-nav" ids="info"><button type="button"
+									class="btn btn-defaul radius0">基本信息</button> </li>
+						</ul>
+					</div>
+				</div>
+				<div class="d-flex justify-content-between align-items-center">
+					<h3 class="mb-0" v-html="datainfo.pageTitle"></h3>
+					<div class="">
+						<input class="btn btn-primary mr-2" name="submit" type="submit" onclick='do_savedata(this)'
+							id="Submit" value="保存数据">
+						<button class="btn btn-info mr-2" name="reset" type="reset" id="reset" value="">重新填写</button>
+						<button class="btn btn-secondary" type="button" id="closeWindow" value=""
+							onclick="window.close();">关闭窗口</button>
+						<input type="hidden" name="actiontype" :value="datainfo.actionType" id="actiontype" />
+						<input type="hidden" name="table_id" :value="datainfo.sysTable.tableId" id="table_id" />
+						<input type="hidden" name="group_code" :value="datainfo.groupCode" id="group_code" />
+						<input type="hidden" name="pk_id" :value="datainfo.pkId" id="pk_id" />
+						<input type="hidden" name="dataname" :value="datainfo.dataName" id="dataname" />
+					</div>
+				</div>
+			</div>
+
+			<div class="card mb-3" v-for="(groupItem, index) in datainfo.listGroupCol">
+
+				<div class="card-header d-flex justify-content-between">
+					<h3 class="mb-0" v-html="groupItem.groupInfo.groupName"></h3>
+				</div>
+
+				<div class="card-body">
+					<div class="row">
+						<div class="col-xl-6 col-md-12 col-sm-12" v-for="(colItem, colIndex) in groupItem.listCol"
+							:style="{display:(colItem.ishide==1?'none':'')}">
+							<div class="mb-3 form-group d-flex align-items-start">
+								<label class="col-xl-4 col-md-4 mb-0 pl-0 text-right"
+									v-if="colItem.inputType==13 && datainfo.actionType=='edit'">
+									<span v-html="colItem.columnName"></span>(不修改即保持不变)
+								</label>
+								<label class="col-xl-4 col-md-4 mb-0 pl-0 text-right" v-else>
+									<em class="text-danger pr-1"
+										v-if="(colItem.nullable=='N') && (groupItem.groupInfo.extraInfo=='1')">*</em>
+									<span v-html="colItem.columnName"></span>
+								</label>
+
+								<dataadd-input-text v-if="colItem.inputType==1"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" v-bind:columnCode="colItem.columnCode"
+									:columnval="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength"></dataadd-input-text>
+
+								<dataadd-input-textarea v-if="colItem.inputType==2"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" :columnCode="colItem.columnCode"
+									:columnVal="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength"></dataadd-input-textarea>
+
+								<dataadd-input-date v-if="colItem.inputType==3"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" :columnCode="colItem.columnCode"
+									:columnVal="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength"></dataadd-input-date>
+
+								<dataadd-input-datenotime v-if="colItem.inputType==4"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" :columnCode="colItem.columnCode"
+									:columnVal="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength"></dataadd-input-datenotime>
+
+								<dataadd-input-kvdata v-if="colItem.inputType==5"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" :columnCode="colItem.columnCode"
+									:columnVal="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength" :datamap="colItem.extraInfo1">
+								</dataadd-input-kvdata>
+
+								<dataadd-input-sqldata v-if="colItem.inputType==6"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" :columnCode="colItem.columnCode"
+									:columnVal="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength" :datamap="colItem.extraInfo1">
+								</dataadd-input-sqldata>
+
+
+								<dataadd-input-number v-if="colItem.inputType==9"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" v-bind:columnCode="colItem.columnCode"
+									:columnVal="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength"></dataadd-input-number>
+
+								<dataadd-input-file v-if="colItem.inputType==10"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" v-bind:columnCode="colItem.columnCode"
+									:columnVal="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength"></dataadd-input-file>
+
+								<dataadd-input-sqldatamult v-if="colItem.inputType==12"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" :columnCode="colItem.columnCode"
+									:columnVal="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength" :datamap="colItem.extraInfo1">
+								</dataadd-input-sqldatamult>
+
+								<dataadd-input-password v-if="colItem.inputType==13  && datainfo.actionType=='add'"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" v-bind:columnCode="colItem.columnCode"
+									:columnval="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength"></dataadd-input-password>
+
+								<dataadd-input-password-edit v-if="colItem.inputType==13 && datainfo.actionType=='edit'"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" v-bind:columnCode="colItem.columnCode"
+									:columnval="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength"></dataadd-input-password-edit>
+
+								<dataadd-input-switch v-if="colItem.inputType==40"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" v-bind:columnCode="colItem.columnCode"
+									:columnval="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength"></dataadd-input-switch>
+
+								<dataadd-input-editselect v-if="colItem.inputType==21"
+									:groupextra="groupItem.groupInfo.extraInfo" :ishide="colItem.ishide"
+									:nullable="colItem.nullable" :columnCode="colItem.columnCode"
+									:columnVal="colItem.extraInfo" :columnName="colItem.columnName"
+									:columnLength="colItem.columnLength" :datamap="colItem.extraInfo1">
+								</dataadd-input-editselect>
+
+							</div>
+						</div>
+						<!-- 开关 html-->
+						<!-- <div class="col-xl-6 col-md-12 col-sm-12">
+							<div class="mb-3 form-group d-flex align-items-start">
+								<label for="" class="col-xl-4 col-md-4 mb-0 pl-0 text-right">语音通知开关</label>
+								<div id="checkSwitch" class="switch">
+								    <input type="checkbox" checked="">
+								</div>
+							</div>
+						</div> -->
+					</div>
+				</div>
+			</div>
+
+			<div class="row justify-content-center">
+				<button class="btn btn-primary px-5 mr-4" name="button" type="button" onclick='do_savedata(this)'
+					id="Submit" value="">保存数据</button>
+				<button class="btn btn-outline-primary px-5" name="reset" type="reset" id="reset" value="">重新填写</button>
+			</div>
+
+			<server-key v-bind:server_key="server_key" v-bind:server_iv="server_iv"></server-key>
+
+		</form>
+	</div>
+</body>
+<!-- 上传选定文件名JS -->
+<script src="js/bs-custom-file-input.min.js"></script>
+<script src="js/bootstrapSwitch.js"></script>
+<script language="JavaScript">
+	var query = window.location.search.substring(1);
+	var urlParams = new URLSearchParams(query);
+
+	$.ajax({
+		url: _sys_baseurl + "/Data/Add?" + query, success: function (result) {
+			//url: 'data/dataadd_ls.json', success: function (result) {
+			vueDisplay("#_app_", result);
+
+			//设置中编辑select
+			$(".edit-selectpicker").each(function (index, domEle) {
+				$(domEle).editableSelect({
+					effects: 'slide'
+				});
+				// var arr_value
+				// if ($(domEle).attr("id") == "LAND_MARK") {
+				// 	arr_value = $(domEle).attr("sel_values").split("|||");
+				// } else {
+				// 	arr_value = $(domEle).attr("sel_values").split(",");
+				// }
+			});
+
+			//设置多选对象
+			$('.selectpicker').each(function (index, domEle) {
+				var arr_value = $(domEle).attr("sel_values").split(",");
+				var len = domEle.options.length;
+				for (i = 0; i < len; i++) {
+					if (jsCommon.in_array(domEle.options[i].value, arr_value)) {
+						domEle.options[i].selected = true;
+					} else {
+						domEle.options[i].selected = false;
+					}
+				}
+
+				$(domEle).selectpicker({
+					'selectedText': 'cat',
+					'noneSelectedText': '请选择',
+					'deselectAllText': '全不选',
+					'selectAllText': '全选'
+				});
+			});
+
+			//自动选择多选对象
+
+			//验证初始化
+			$("#formData").bootstrapValidator({
+				message: '没有验证',
+				feedbackIcons: {
+					valid: 'glyphicon glyphicon-ok',
+					invalid: 'glyphicon glyphicon-remove',
+					validating: 'glyphicon glyphicon-refresh'
+				},
+				fields: {
+				}
+			});
+
+			//switch对象
+			$('#checkSwitch').on('switch-change', function (e, data) {
+				var $el = $(data.el), value = data.value;
+				console.log(e, $el, value);
+			});
+		}
+	});
+
+	//保存数据
+	function do_savedata(obj) {
+		var f = obj.form;
+
+		var bv = $(f).data('bootstrapValidator');
+		var flag = false;
+		if (bv == undefined || urlParams.get("group_code") == "all") {
+			flag = true;
+		} else {
+			bv.validate();
+			flag = bv.isValid();
+		}
+
+		if (flag) {
+			var obj1 = $(f).serialize();
+
+			var encrypted = Encrypt(obj1);
+
+			$("#_client_sign_").val(encrypted);
+
+			var data = new FormData(f);
+
+			$.ajax({
+				type: 'POST',
+				url: _sys_baseurl + '/Data/Save',
+				data: data,
+				async: true,
+				processData: false,
+				contentType: false,
+				success: function (data) {
+					do_savedata_suss(data);
+				},
+			});
+
+			return false;
+
+		}
+	}
+
+	//保存成功的回调方法
+	function do_savedata_suss(data) {
+		if (data.result == "0") {
+			var err_msg = data.err_msg;
+			if (err_msg == "") {
+				err_msg = "对不起，操作失败！";
+			}
+
+			alert(err_msg);
+		} else {
+			if (data.data.redirectFlag == "1") {
+				alert("保存数据成功！");
+				window.location = data.data.redirectUrl;
+			}
+		}
+	}
+
+	//日期选择
+	function showLaydate(obj) {
+		var objid = obj.getAttribute("id");
+		var f = obj.form;
+
+		laydate({
+			elem: '#' + objid, istime: true, format: 'YYYY-MM-DD hh:mm',
+			choose: function () {
+				$('#formData').data('bootstrapValidator').updateStatus(objid, 'NOT_VALIDATED', null).validateField(objid);
+			},
+		});
+	}
+
+</script>
+
+</html>

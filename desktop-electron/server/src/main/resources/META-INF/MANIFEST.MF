@@ -1,0 +1,77 @@
+Manifest-Version: 1.0
+Main-Class: com.zhuofan.oms.OmsServerApplication
+Class-Path: com.lowagie.text-2.1.7.jar commons-logging-1.2.jar kafka-cli
+ ents-2.8.0.jar commons-collections4-4.4.jar jackson-annotations-2.13.3.
+ jar lz4-java-1.7.1.jar netty-common-4.1.79.Final.jar netty-transport-na
+ tive-epoll-4.1.79.Final.jar netty-codec-stomp-4.1.79.Final.jar spring-b
+ oot-starter-jdbc-2.6.10.jar salvation2-3.0.1.jar jodconverter-local-4.3
+ .0.jar netty-codec-xml-4.1.79.Final.jar netty-transport-native-epoll-4.
+ 1.79.Final-linux-x86_64.jar HdrHistogram-2.1.12.jar tomcat-embed-core-9
+ .0.65.jar jurt-4.1.2.jar annotations-13.0.jar netty-codec-haproxy-4.1.7
+ 9.Final.jar xml-apis-1.0.b2.jar json-20140107.jar htmlunit-2.70.0.jar w
+ ildfly-client-config-1.0.1.Final.jar jetty-util-9.4.48.v20220622.jar co
+ mmons-io-2.15.0.jar netty-codec-redis-4.1.79.Final.jar websocket-client
+ -9.4.48.v20220622.jar unoil-2.3.0.jar mybatis-plus-extension-3.5.2.jar 
+ spring-webmvc-5.3.22.jar spring-context-5.3.22.jar dom4j-1.6.1.jar html
+ unit-core-js-2.70.0.jar jodconverter-2.2.1.jar ehcache-3.9.9.jar jodcon
+ verter-spring-boot-starter-4.3.0.jar jakarta.annotation-api-1.3.5.jar s
+ pring-boot-starter-aop-2.6.10.jar netty-transport-udt-4.1.79.Final.jar 
+ spring-boot-starter-actuator-2.6.10.jar spring-boot-starter-web-2.6.10.
+ jar reactor-netty-http-1.0.21.jar spring-boot-starter-tomcat-2.6.10.jar
+  netty-handler-proxy-4.1.79.Final.jar snappy-java-1.1.8.1.jar xnio-nio-
+ 3.8.7.Final.jar kotlin-stdlib-jdk7-1.6.21.jar jackson-databind-2.13.3.j
+ ar netty-codec-smtp-4.1.79.Final.jar httpcore-4.4.15.jar spring-jdbc-5.
+ 3.22.jar fastjson-1.2.62.jar mybatis-plus-boot-starter-3.5.2.jar spring
+ -boot-starter-logging-2.6.10.jar netty-transport-native-unix-common-4.1
+ .79.Final.jar jackson-module-parameter-names-2.13.3.jar spring-boot-2.6
+ .10.jar netty-codec-socks-4.1.79.Final.jar poi-ooxml-lite-5.2.5.jar pdf
+ box-3.0.3.jar spring-core-5.3.22.jar dec-0.1.2.jar httpmime-4.5.13.jar 
+ undertow-core-2.2.18.Final.jar spring-boot-autoconfigure-2.6.10.jar net
+ ty-transport-native-kqueue-4.1.79.Final-osx-aarch_64.jar aspectjweaver-
+ 1.9.7.jar hamcrest-2.2.jar log4j-to-slf4j-2.17.2.jar jackson-datatype-j
+ sr310-2.13.3.jar log4j-api-2.17.2.jar HikariCP-4.0.3.jar spring-aop-5.3
+ .22.jar netty-transport-classes-kqueue-4.1.79.Final.jar LatencyUtils-2.
+ 0.3.jar jetty-io-9.4.48.v20220622.jar jakarta.websocket-api-1.1.2.jar c
+ ommons-text-1.10.0.jar junit-4.11.jar commons-lang3-3.7.jar neko-htmlun
+ it-2.70.0.jar mybatis-plus-core-3.5.2.jar wildfly-common-1.5.4.Final.ja
+ r spring-boot-actuator-autoconfigure-2.6.10.jar spring-boot-starter-und
+ ertow-2.6.10.jar gson-2.8.9.jar spring-expression-5.3.22.jar poi-ooxml-
+ full-5.2.5.jar netty-resolver-dns-native-macos-4.1.79.Final-osx-x86_64.
+ jar curvesapi-1.08.jar easyexcel-support-3.3.4.jar commons-csv-1.11.0.j
+ ar jodconverter-core-4.3.0.jar mybatis-plus-3.5.2.jar jsqlparser-4.4.ja
+ r snakeyaml-1.29.jar spring-boot-starter-2.6.10.jar reactor-core-3.4.21
+ .jar micrometer-core-1.8.8.jar slf4j-api-1.7.36.jar lombok-1.18.24.jar 
+ zstd-jni-1.4.9-1.jar easyexcel-4.0.3.jar undertow-websockets-jsr-2.2.18
+ .Final.jar jaxen-1.1.6.jar netty-handler-4.1.79.Final.jar spring-boot-s
+ tarter-json-2.6.10.jar netty-codec-http2-4.1.79.Final.jar mybatis-plus-
+ annotation-3.5.2.jar netty-transport-rxtx-4.1.79.Final.jar htmlunit-xpa
+ th-2.70.0.jar netty-codec-mqtt-4.1.79.Final.jar hamcrest-core-2.2.jar x
+ mlbeans-5.2.0.jar netty-resolver-dns-native-macos-4.1.79.Final-osx-aarc
+ h_64.jar commons-net-3.9.0.jar floader-1.0.jar fontbox-3.0.3.jar jboss-
+ threads-3.1.0.Final.jar spring-boot-configuration-processor-2.6.10.jar 
+ DmJdbcDriver18.jar ridl-2.3.0.jar netty-codec-memcache-4.1.79.Final.jar
+  jul-to-slf4j-1.7.36.jar spring-tx-5.3.22.jar spring-boot-actuator-2.6.
+ 10.jar logback-core-1.2.11.jar undertow-servlet-2.2.18.Final.jar netty-
+ transport-4.1.79.Final.jar netty-transport-native-kqueue-4.1.79.Final-o
+ sx-x86_64.jar spring-beans-5.3.22.jar jackson-core-2.13.3.jar juh-2.3.0
+ .jar tomcat-embed-el-9.0.65.jar xlsx-streamer-2.2.0.jar websocket-api-9
+ .4.48.v20220622.jar netty-resolver-dns-classes-macos-4.1.79.Final.jar p
+ dfbox-io-3.0.3.jar netty-all-4.1.79.Final.jar netty-transport-classes-e
+ poll-4.1.79.Final.jar netty-resolver-dns-4.1.79.Final.jar mybatis-3.5.1
+ 0.jar reactor-netty-core-1.0.21.jar spring-boot-starter-webflux-2.6.10.
+ jar jboss-logging-3.4.3.Final.jar jetty-client-9.4.48.v20220622.jar com
+ mons-codec-1.10.jar easyexcel-core-4.0.3.jar jsoup-1.14.1.jar spring-we
+ bflux-5.3.22.jar spring-web-5.3.22.jar jakarta.servlet-api-4.0.4.jar ne
+ tty-codec-4.1.79.Final.jar reactive-streams-1.0.4.jar spring-boot-start
+ er-reactor-netty-2.6.10.jar kotlin-stdlib-jdk8-1.6.21.jar jackson-datat
+ ype-jdk8-2.13.3.jar reactor-netty-0.7.3.RELEASE.jar poi-5.2.5.jar httpc
+ lient-4.5.13.jar xnio-api-3.8.7.Final.jar netty-codec-dns-4.1.79.Final.
+ jar jetty-http-9.4.48.v20220622.jar tomcat-embed-websocket-9.0.65.jar c
+ ommons-math3-3.6.1.jar kotlin-stdlib-common-1.6.21.jar poi-ooxml-5.2.5.
+ jar logback-classic-1.2.11.jar kotlin-stdlib-1.6.21.jar netty-buffer-4.
+ 1.79.Final.jar spring-jcl-5.3.22.jar commons-compress-1.25.0.jar netty-
+ transport-sctp-4.1.79.Final.jar websocket-common-9.4.48.v20220622.jar n
+ etty-resolver-4.1.79.Final.jar mybatis-spring-2.0.7.jar netty-codec-htt
+ p-4.1.79.Final.jar htmlunit-cssparser-1.14.0.jar SparseBitSet-1.3.jar n
+ etty-transport-native-epoll-4.1.79.Final-linux-aarch_64.jar
+

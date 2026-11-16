@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Pragma" content="no-cache">
+	<title></title>
+	<!-- bootstrap & fontawesome -->
+	<link rel="stylesheet" href="css/bootstrap-icons.css">
+	<link rel="stylesheet" href="css/default.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/order.css">
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.css">
+	<link rel="stylesheet" href="css/datetimepicker.css" />
+	<link rel="stylesheet" href="css/layui.css">
+	<link rel="stylesheet" href="css/layui-up.css">
+	<link rel="stylesheet" href="css/bootstrap-select.min.css">
+
+	<script src="js/spin.min.js"></script>
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/bootstrap.bundle.js"></script>
+	<script src="js/vue.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/jquery.smart-form.js"></script>
+	<script src="js/bootstrap-datetimepicker.js"></script>
+	<!-- 日历 -->
+	<script src="js/jquery.datetimepicker.full.js"></script>
+
+	<script src="js/bootstrapValidator.min.js"></script>
+	<script src="js/bootstrap-select.min.js"></script>
+	<script src="js/common.js?444"></script>
+	<script src="js/layer/layer.js"></script>
+	<link rel="stylesheet" href="js/layer/skin/layer.css" id="layui_layer_skinlayercss">
+	<script src="js/laydate/laydate.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/laydate/need/laydate.css">
+	<link type="text/css" rel="stylesheet" href="js/laydate/skins/default/laydate.css" id="LayDateSkin">
+
+	<script src="js/layui.js"></script>
+	<script src="js/aes.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="js/datalist.js"></script>
+	<style>
+		.main-body {
+			display: flex;
+			flex-direction: column;
+			min-height: calc(100vh - 1rem);
+			min-width: 0;
+			transition: margin-left 0.35s ease-in-out, left 0.35s ease-in-out, margin-right 0.35s ease-in-out, right 0.35s ease-in-out;
+			width: 100%;
+		}
+
+		.table-responsive {
+			display: inherit;
+			width: 100%;
+			max-height: calc(100vh - 166px);
+			overflow: auto;
+		}
+
+		.card .table-bordered tr td {
+			min-width: 105px;
+		}
+
+		.card .table-bordered tr td.datewrap .text {
+			text-wrap: wrap;
+			word-wrap: break-word;
+			word-break: break-all;
+			white-space: pre-wrap;
+			width: 85px;
+		}
+
+		.card .table-bordered tr td.textwrap .text {
+			text-wrap: wrap;
+			word-wrap: break-word;
+			word-break: break-all;
+			white-space: pre-wrap;
+			min-width: 130px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.card .table-bordered tr td.textwrap .text>span:hover {
+			color: #f3d99d;
+		}
+
+		.table-lastcol .text {
+			min-width: 150px;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: start;
+		}
+
+		/* 文字提示 */
+		.col-tooltips[data-bs-toggle=tooltip] {
+			max-width: 120px;
+			display: block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.tooltip.show {
+			opacity: 1;
+		}
+
+		.bs-tooltip-top .arrow::before,
+		.bs-tooltip-auto[x-placement^=top] .arrow::before {
+			border-top-color: rgba(250, 250, 250, .9);
+		}
+
+		.bs-tooltip-right .arrow::before,
+		.bs-tooltip-auto[x-placement^=right] .arrow::before {
+			border-right-color: rgba(250, 250, 250, .9);
+		}
+
+		.bs-tooltip-bottom .arrow::before,
+		.bs-tooltip-auto[x-placement^=bottom] .arrow::before {
+			border-bottom-color: rgba(250, 250, 250, .9);
+		}
+
+		.bs-tooltip-left .arrow::before,
+		.bs-tooltip-auto[x-placement^=left] .arrow::before {
+			border-left-color: rgba(250, 250, 250, .9);
+		}
+
+		.tooltip-inner {
+			max-width: 640px;
+			padding: 0.25rem 0.5rem;
+			font-size: .95rem;
+			color: #111;
+			text-align: left;
+			background-color: rgba(250, 250, 250, .9);
+			backdrop-filter: blur(5px);
+			line-height: 2;
+			border-radius: 0.25rem;
+			box-shadow: 0 0 0.875rem 0 rgba(0, 0, 0, 0.01);
+		}
+
+		/* .card .table-bordered tr td:last-child.textwrap>span {
+			white-space: nowrap;
+		} */
+
+		/* 新增613 */
+		.min-whsm {
+			min-width: 115px;
+			min-height: 22px;
+		}
+
+		.arrows .ups,
+		.arrows .downs {
+			position: absolute;
+			right: 0px;
+			color: rgba(250, 250, 250, 0.2);
+		}
+
+		.arrows .ups.active,
+		.arrows .downs.active {
+			color: rgba(250, 250, 250, 0.5);
+		}
+
+		.arrows .ups {
+			bottom: -5px;
+		}
+
+		.arrows .downs {
+			top: -5px;
+		}
+
+		.layui-icon-close:before {
+			content: "\F659";
+			font-family: bootstrap-icons;
+			font-size: 20px;
+			line-height: 14px;
+		}
+
+		/* * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        } */
+
+		#operationVerifyModal {
+			.modal {
+				position: relative;
+				width: 100%;
+				max-width: 500px;
+				z-index: 10;
+			}
+
+			.modal-dialog {
+				width: 100%;
+			}
+
+			.modal-content {
+				background: white;
+				border-radius: 16px;
+				overflow: hidden;
+				box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+				position: relative;
+			}
+
+			.modal-header {
+				background: linear-gradient(90deg, #3498db, #2c3e50);
+				color: white;
+				padding: 20px;
+				text-align: center;
+				position: relative;
+			}
+
+			.modal-header h3 {
+				font-weight: 600;
+				font-size: 1.5rem;
+				letter-spacing: 1px;
+			}
+
+			.modal-header::after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 5%;
+				width: 90%;
+				height: 2px;
+				background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+			}
+
+			.modal-body {
+				padding: 30px;
+			}
+
+			.verify-title {
+				text-align: center;
+				margin-bottom: 25px;
+				color: #2c3e50;
+			}
+
+			.verify-title i {
+				color: #3498db;
+				margin-right: 10px;
+			}
+
+			.security-container {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 25px;
+				background: #f8f9fa;
+				border-radius: 12px;
+				padding: 15px;
+				box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+			}
+
+			.security-code {
+				flex: 1;
+				height: 60px;
+				background: linear-gradient(45deg, #e0e0e0, #f5f5f5);
+				border-radius: 8px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 2rem;
+				font-weight: bold;
+				letter-spacing: 5px;
+				color: #2c3e50;
+				text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+				position: relative;
+				overflow: hidden;
+			}
+
+			.security-code::before {
+				content: '';
+				position: absolute;
+				top: -50%;
+				left: -50%;
+				width: 200%;
+				height: 200%;
+				background: linear-gradient(45deg, transparent 33%, rgba(255, 255, 255, 0.3) 50%, transparent 66%);
+				background-size: 10px 10px;
+				animation: shine 3s infinite linear;
+				transform: rotate(20deg);
+			}
+
+			@keyframes shine {
+				0% {
+					transform: translateX(-50%) rotate(20deg);
+				}
+
+				100% {
+					transform: translateX(50%) rotate(20deg);
+				}
+			}
+
+			.refresh-btn {
+				background: #3498db;
+				color: white;
+				border: none;
+				border-radius: 8px;
+				padding: 12px 15px;
+				margin-left: 15px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				display: flex;
+				align-items: center;
+				font-weight: 500;
+				box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);
+			}
+
+			.refresh-btn:hover {
+				background: #2980b9;
+				transform: translateY(-2px);
+				box-shadow: 0 6px 8px rgba(52, 152, 219, 0.4);
+			}
+
+			.refresh-btn:active {
+				transform: translateY(0);
+				box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+			}
+
+			.refresh-btn i {
+				margin-right: 8px;
+			}
+
+			.input-group {
+				margin-bottom: 30px;
+				position: relative;
+			}
+
+			.input-group label {
+				display: block;
+				margin-bottom: 8px;
+				color: #2c3e50;
+				font-weight: 500;
+				padding-left: 5px;
+			}
+
+			.input-field {
+				width: 100%;
+				padding: 15px 20px;
+				border: 2px solid #e0e0e0;
+				border-radius: 12px;
+				font-size: 1rem;
+				transition: all 0.3s ease;
+				background: #f8f9fa;
+				color: #2c3e50;
+			}
+
+			.input-field:focus {
+				outline: none;
+				border-color: #3498db;
+				background: white;
+				box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+			}
+
+			.input-field::placeholder {
+				color: #95a5a6;
+			}
+
+			.submit-btn {
+				width: 100%;
+				padding: 16px;
+				background: linear-gradient(90deg, #3498db, #2c3e50);
+				color: white;
+				border: none;
+				border-radius: 12px;
+				font-size: 1.1rem;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				letter-spacing: 1px;
+				box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+			}
+
+			.submit-btn:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+			}
+
+			.submit-btn:active {
+				transform: translateY(0);
+				box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+			}
+
+			.hint-text {
+				text-align: center;
+				margin-top: 20px;
+				color: #7f8c8d;
+				font-size: 0.9rem;
+			}
+
+			.hint-text a {
+				color: #3498db;
+				text-decoration: none;
+			}
+
+			.hint-text a:hover {
+				text-decoration: underline;
+			}
+
+			.decoration {
+				position: absolute;
+				width: 200px;
+				height: 200px;
+				background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
+				border-radius: 50%;
+			}
+
+			.dec-1 {
+				top: -80px;
+				left: -80px;
+			}
+
+			.dec-2 {
+				bottom: -100px;
+				right: -80px;
+			}
+
+			/* 响应式设计 */
+			@media (max-width: 576px) {
+				.modal-body {
+					padding: 20px;
+				}
+
+				.security-container {
+					flex-direction: column;
+				}
+
+				.security-code {
+					width: 100%;
+					margin-bottom: 15px;
+				}
+
+				.refresh-btn {
+					width: 100%;
+					margin-left: 0;
+					justify-content: center;
+				}
+			}
+		}
+
+		/* 针对头部多选 */
+		.bootstrap-select.form-control .dropdown-menu.show {
+			z-index: 1021;
+		}
+
+		.layui-menu {
+			padding-left: 0;
+		}
+
+		/* 已归档菜单：整行可点击覆盖层 */
+		.layui-menu li .menu-full-link {
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 2;
+			display: block;
+			margin: 0;
+			padding: 0;
+		}
+
+		.layui-menu li .menu-full-link:hover {
+			background: rgba(255, 255, 255, 0.1);
+		}
+
+		.d-vertical {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.w-span {
+			width: 148px;
+			text-align: right;
+		}
+	</style>
+</head>
+
+<body onload="setTimeout(&#39;jsCommon.lockPage()&#39;,1000*3600);">
+	<div class="container-fluid mt-3 d-flex" id="_app_">
+		<input type="hidden" name="dataname" id="dataname" :value="datainfo.dataname" />
+		<div class="card align-self-baseline left-w mr-3" v-if="showFlowNode=='1'">
+			<div class="card-header">
+				<h3 class="card-title mb-0">流程节点</h3>
+			</div>
+			<div class="card-body p-2">
+				<div class="list-group list-group-flush">
+					<a :href="'datalist.html?dataname='+datainfo.dataname"
+						class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between align-items-center">
+							<h5 class="mb-0 f14">全部</h5>
+						</div>
+					</a>
+					<!-- <a v-for="(flowNode,nodeIndex) in flowNodeTotal" 
+					:href="'datalist.html?dataname='+datainfo.dataname+'&flow_node_id='+flowNode.flowNodeId" class="list-group-item list-group-item-action" >
+						<div class="d-flex w-100 justify-content-between align-items-center">
+							<h5 class="mb-0 f14" v-html="flowNode.nodeName"></h5>
+							<span class="badge bg-info fs-sm text-white rounded-pill" v-html="flowNode.count"></span>
+						</div>
+					</a> -->
+					<ul class="layui-menu" id="demo-menu" lay-accordion>
+						<li class="layui-menu-item-group layui-menu-item-up"
+							:class="flowNodeId==flowNode.flowNodeId?'layui-menu-item-down':''"
+							v-for="(flowNode,nodeIndex) in flowNodeTotal"
+							:lay-options="nodeIndex==flowNodeTotal.length-1 ? '{type:&quot;group&quot;,isAllowSpread:false}' : '{type:&quot;group&quot;}'"
+							v-if="flowNode.nodeType!='30'">
+							<div v-if="flowNode.nodeType!='30'"
+								class="layui-menu-body-title d-flex flex-wrap justify-content-between flex-center">
+								<div>
+									<span v-html="flowNode.nodeName"></span>
+								</div>
+								<a
+									:href="'datalist.html?dataname='+datainfo.dataname+'&flow_node_id='+flowNode.flowNodeId">
+									<span class="layui-badge" v-html="flowNode.countAll"></span>
+								</a>
+							</div>
+							<ul v-if="flowNode.nodeType!='30' && nodeIndex<flowNodeTotal.length-1">
+								<!-- 每个li标签可添加 lay-options="{}" 可设置对应菜单列表的基础属性 -->
+								<li>
+									<a
+										:href="'datalist.html?flag_return=0&dataname='+datainfo.dataname+'&flow_node_id='+flowNode.flowNodeId">
+
+										<div class="layui-menu-body-title">待处理
+											<span class="layui-badge" v-html="flowNode.count"></span>
+										</div>
+									</a>
+								</li>
+								<li>
+									<a
+										:href="'datalist.html?flag_return=1&dataname='+datainfo.dataname+'&flow_node_id='+flowNode.flowNodeId">
+
+										<div class="layui-menu-body-title">回退箱
+											<span class="layui-badge" v-html="flowNode.countReturn"></span>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a
+										:href="'datalist.html?flag_after=1&dataname='+datainfo.dataname+'&flow_node_id='+flowNode.flowNodeId">
+
+										<div class="layui-menu-body-title">已发送
+											<span class="layui-badge" v-html="flowNode.countSend"></span>
+										</div>
+									</a>
+								</li>
+
+
+
+							</ul>
+							<!-- 已归档节点：整行可点击 -->
+							<a v-if="nodeIndex==flowNodeTotal.length-1" class="menu-full-link"
+								:href="'datalist.html?dataname='+datainfo.dataname+'&flow_node_id='+flowNode.flowNodeId"></a>
+						</li>
+
+						<li class="layui-menu-item-group layui-menu-item-up"
+							v-for="(extra,extraIndex) in jsonArrFilterExtra" lay-options="{type: 'group'}">
+							<div class="layui-menu-body-title d-flex flex-wrap justify-content-between flex-center">
+								<div>
+									<a
+										:href="'datalist.html?dataname='+datainfo.dataname+'&extra_field='+extra.fieldName+'&extra_value='+extra.fieldValue">
+										<span v-html="extra.showText"></span>
+									</a>
+								</div>
+								<a
+									:href="'datalist.html?dataname='+datainfo.dataname+'&extra_field='+extra.fieldName+'&extra_value='+extra.fieldValue">
+									<span class="layui-badge" v-html="extra.countAll"></span>
+								</a>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+		<div class="main-body">
+			<div class="card mb-3">
+				<div class="card-header d-flex align-items-center">
+					<h3 class="text-center mb-0 flex-grow-1">
+						<center v-html="datainfo.title"></center>
+					</h3>
+					<div class="ml-auto">
+						<span class="mr-2" v-html="datainfo.other"></span>
+						<input v-if="datainfo.dataname=='ZDHCZDZZDGLLC'" type="button" onclick="do_zdhczdz(1)"
+							form="formList" class="btn btn-primary mr-2" value="告警信息检测">
+						<input v-if="datainfo.dataname=='ZDHCZDZZDGLLC'" type="button" onclick="do_zdhczdz(2)"
+							form="formList" class="btn btn-primary mr-2" value="正规修文附件">
+						<input v-if="datainfo.dataname=='PWGJ_PHONE_LIST'" type="button" onclick="out_phone()"
+							form="formList" class="btn btn-primary mr-2" value="下载模版">
+						<input type="button" :onclick="'do_export(this,'+datainfo.rowfrom+')'" form="formList"
+							class="btn btn-primary mr-2" value="导出当前页">
+						<input type="button" v-if="datainfo.dataname=='HXCSQXSQ'"
+							onclick="open_url('datalist.html?flag_return=0&dataname=HXCSQXSQ_SQNR', '', '2000px', '1000px')"
+							form="formList" class="btn btn-primary mr-2" value="申请记录">
+						<input type="button" v-if="flowNodeId=='10006302' && getLoginDepartmentName.includes('巡维')"
+							onclick="openFanKuiModal()" form="formList" class="btn btn-primary mr-2" value="批量反馈">
+						<input type="button" onclick="do_export(this,-1)" form="formList" class="btn btn-primary mr-2"
+							value="导出全部">
+						<input v-if="datainfo.flagImport==1" type="button" onclick="do_import(this)" form="formList"
+							class="btn btn-primary mr-2" value="导入数据">
+						<span class="mr-2" v-html="datainfo.otherEnd"></span>
+					</div>
+				</div>
+				<div class="card-body pb-0" v-if="datainfo.listFilter.length>0">
+					<form class="d-flex flex-wrap justify-content-between" name="formList" id="formList" method="get"
+						action="">
+						<!-- <div class="d-flex align-items-center">
+							
+						</div> -->
+						<input name="flagSort" :value="datainfo.flagSort" type="hidden">
+						<input name="orderType" :value="datainfo.ordertype" type="hidden">
+						<input name="loginUserID" :value="loginUserID" type="hidden">
+						<input name="loginDepartmentId" :value="loginDepartmentId" type="hidden">
+						<div class="d-flex flex-row flex-wrap justify-content-xl-start align-items-center">
+							<div v-for="(filteritem, index) in datainfo.listFilter" v-html="filteritem"
+								class="mb-3 input-group w-auto align-items-center mr-3"></div>
+							<input type="button" onclick="do_search(this)" form="formList"
+								class="mb-3 btn btn-outline-primary mr-3" value="查询">
+							<input v-if="datainfo.dataname=='OMS_BUSBAR'" type="button" onclick="exportData(this)"
+								form="formList" class="mb-3 btn btn-outline-primary mr-3" value="导出">
+							<!-- <input v-if="datainfo.dataname=='OMS_DUTY'" type="file" onchange="importData(this)"
+								form="formList" class="mb-3 btn btn-outline-primary mr-3" value="导入"> -->
+							<input type="button" v-if="datainfo.dataname=='OMS_DUTY'" type="button"
+								class="mb-3 btn btn-outline-primary mr-3" onclick="openImportModal()" value="导入" />
+						</div>
+						<div v-if="datainfo.dataname=='ALARM_DISCONNECTOR_STATISTIC'">
+							<input type="button" onclick="disconnectorStatictic(this)" form="formList"
+								class="mb-3 btn btn-outline-primary" value="重新统计（填入月份时，只重新统计指定月份数据）" />
+						</div>
+
+						<div v-if="datainfo.dataname=='ALARM_INFO'">
+							<input type="button" onclick="checkCall(this)" form="formList"
+								class="mb-3 btn btn-outline-primary" value="检查通知" />
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body p-1">
+					<div class="table-responsive tb-scrollbar" id="scrollable">
+						<table class="table table-bordered table-striped mb-0 col-table" id="data-table">
+							<thead class="sticky-top sticky">
+								<tr>
+									<th class="col-sticky">
+										<label for="poroductseall" class="mb-0">
+											<input type="checkbox" class="form-check-input position-static"
+												id="chk_selall" onclick="checkAllRows(this.checked);"> 序号
+										</label>
+									</th>
+
+									<th nowrap="" class="col-sticky" onclick="reorder(this)"
+										:name="datainfo.listColFldn[index]"
+										v-for="(colinfo, index) in datainfo.listCol">
+										<div class="d-flex justify-content-between align-items-center">
+											<span v-html="colinfo"></span>
+											<div v-if="datainfo.orderfldn==datainfo.listColFldn[index]"
+												class="d-flex flex-column position-relative arrows">
+												<i
+													:class="['bi bi-caret-up-fill ups', {active:datainfo.ordertype!='DESC'}]"></i>
+												<i
+													:class="['bi bi-caret-down-fill downs', {active:datainfo.ordertype=='DESC'}]"></i>
+											</div>
+										</div>
+									</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr v-for="(rowitem, rowindex) in datainfo.listContent" ondblclick="rowDblClick(this);"
+									class="row-sticky">
+									<td class="col-sticky" v-for="(colitem, colindex) in rowitem"
+										:nowrap="rowindex==(rowitem.length-1)?'nowrap':false">
+										<div v-if="colindex==0">
+											<input type="checkbox" class="form-check-input position-static"
+												aria-label=".." name="chk_sel[]" :value="colitem">
+											<span name="span_no" :rowform="datainfo.rowfrom"
+												:rowindex="rowindex"></span>
+										</div>
+										<div v-if="colindex>0" v-html="colitem" class="text"></div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex justify-content-between page-nav-box">
+				<span onclick="layer.alert('<span style=color:red>fffff<span>')">
+					共有<span v-html="datainfo.recordcount"></span>条记录，显示第<span v-html="datainfo.rowfrom"></span>至<span
+						v-html="datainfo.rowto"></span>条。
+				</span>
+
+				<ul class="pagination page-nav">
+					<li>
+						<a href="#" onclick="goto_page(1);">«</a>
+					</li>
+
+					<li v-for="pageindex in datainfo.pageto" v-if="pageindex>=datainfo.pagefrom"
+						:class="{'active':pageindex==datainfo.pageno}">
+						<a v-bind:pageno="pageindex" href="#" onclick="goto_page(this.getAttribute('pageno'));"
+							v-html="pageindex"></a>
+					</li>
+
+					<li>
+						<a v-bind:pageno="datainfo.pagecount" href="#"
+							onclick="goto_page(this.getAttribute('pageno'));">»</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- <div id="previewModal" class="modal" style="width: 500px;height: 300px;position: absolute;top: calc(50% - 150px);left: calc(50% - 250px);">
+			<div>"测试安定哈达化的哈数据的hash"</div>
+		</div> -->
+		<!-- 弹窗-->
+		<div class="modal" id="previewModal" data-keyboard="false" tabindex="-1" aria-labelledby="previewModal-label"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content bg-thead">
+					<div class="modal-header py-2 border-primary">
+						<h5 class="modal-title h6" id="previewModal-label">生成语音</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body bg-light">
+						<div id="audio-div" class="d-flex flex-column align-items-center">
+							<span class="py-1 h6" id="query_parse_result">文件已生成，请点击试听。</span>
+							<audio id="audio" controls>
+								<source src="" type="audio/wav">
+								您的浏览器不支持 audio 元素。
+							</audio>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 弹窗-->
+		<div class="modal" id="importModal" data-keyboard="false" tabindex="-1" aria-labelledby="previewModal-label"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content bg-thead">
+					<div class="modal-header py-2 border-primary">
+						<input name="cover" type="radio" value="1">覆盖</input>
+						<input name="cover" type="radio" value="0" checked>不覆盖</input>
+						<input type="file" onchange="importData(this)" class="btn btn-primary mr-2" value="选择导入文件"
+							accept=".xlsx"></input>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="operationVerifyModal" label="操作验证" data-keyboard="false" tabindex="-1"
+			aria-labelledby="operationVerifyModal-label">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 id="operationVerifyModal-label">操作验证</h3>
+					</div>
+					<div class="modal-body">
+						<div class="verify-title">
+							<h4><i class="fas fa-shield-alt"></i> 安全验证</h4>
+							<p>请输入下方图片中的字符完成验证</p>
+						</div>
+
+						<div class="security-container">
+							<div class="security-code">3A7B9K</div>
+							<button class="refresh-btn" onclick="changeVerifyCode(5)">
+								<i class="fas fa-sync-alt"></i> 刷新验证码
+							</button>
+						</div>
+
+						<div class="input-group">
+							<label for="inputOperationVertifyCode">验证码</label>
+							<input type="text" id="inputOperationVertifyCode" class="input-field"
+								placeholder="请输入图片中的字符">
+						</div>
+
+						<button id="operationVertifyCommitButton" class="submit-btn">
+							验证
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 批量反馈弹窗 -->
+		<div class="modal order fade" id="FanKuiModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable z-3">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">合并反馈</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body bg-thead p-0">
+						<div class="p-3 lh-lg">
+							<div class="input-group mb-3">
+								<span class="w-span">告警内容：</span>
+								<input name="name" id="GJNR" required autocomplete="off" class="form-control rounded"
+									type="text" disabled>
+							</div>
+							<div class="input-group mb-3">
+								<span class="w-span">告警类型：</span>
+								<input name="name" id="GJLX" required autocomplete="off" class="form-control rounded"
+									type="text" disabled>
+							</div>
+							<div class="input-group mb-3">
+								<span class="w-span">厂站：</span>
+								<input name="name" id="CZ" required autocomplete="off" class="form-control rounded"
+									type="text" disabled>
+							</div>
+							<div class="input-group mb-3">
+								<span class="w-span"><i class="text-danger pr-1">*</i>检查人：</span>
+								<input name="name" id="JCR" required autocomplete="off" class="form-control rounded"
+									type="text">
+							</div>
+							<div class="input-group mb-3">
+								<span class="w-span"><i class="text-danger pr-1">*</i>检查时间：</span>
+								<input name="time" id="JCSJ" required autocomplete="off" class="form-control rounded"
+									type="text">
+							</div>
+							<div class="input-group mb-3">
+								<span class="w-span"><i class="text-danger pr-1">*</i>告警信号发生原因：</span>
+								<select id="JCJGFL" required class="form-control" v-model="JCJGFL">
+									<option value=""></option>
+									<option value="设备一次检修测试信号">设备一次检修测试信号</option>
+									<option value="设备二次检修测试信号">设备二次检修测试信号</option>
+									<option value="站内临时工作信号,已转站内容监控">站内临时工作信号,已转站内容监控</option>
+									<option value="设备异常缺陷信号,已转站内容监控">设备异常缺陷信号,已转站内容监控</option>
+									<option value="信号短时异常,信号已复归,设备运行正常">信号短时异常,信号已复归,设备运行正常</option>
+									<option value="其它">其它</option>
+								</select>
+							</div>
+							<div class="input-group mb-3">
+								<span class="w-span"><i class="text-danger pr-1">*</i>信号检查结果：</span>
+								<textarea name="XHJCJG" required id="XHJCJG" class="form-control rounded"></textarea>
+							</div>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="d-vertical w-100">
+							<button class="btn btn-primary px-5" onclick="submitFeedback()"> 确定 </button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="mask"></div>
+
+	<script src="js/simplebar.js"></script>
+	<script type="text/javascript">
+
+		var opts = {
+			lines: 13,// loading小块的数量
+			length: 7, // 小块的长度
+			width: 4, // 小块的宽度
+			radius: 10, // 整个圆形的半径
+			corners: 1, // 小块的圆角，越大则越圆
+			rotate: 0, // loading动画的旋转度数，貌似没什么实际作用
+			color: '#000', // 颜色
+			speed: 1,// 变换速度
+			trail: 60,// 余晖的百分比
+			shadow: true,// 是否渲染出阴影
+		};
+
+		var spinner = new Spinner(opts);
+
+		const apiInstance = axios.create({
+			baseURL: _sys_baseurl,
+			timeout: 10 * 1000,
+			adapter: 'fetch'
+		});
+		// 生成语音文件
+		function showPreviewModal(id) {
+			$('#mask').show();
+			spinner.spin($('body')[0]);
+			apiInstance.post('/Zwgj/audio/download/' + id, {}, { responseType: 'blob' })
+				.then(response => {
+					// 获取语音文件
+					// let content = response.headers['content-disposition'];
+					// let filename = content.substring(content.indexOf('filename=') + 9);
+					var blob = new Blob([response.data], { type: "application/octet-stream;charset=ISO8859-1" });
+					var downloadUrl = URL.createObjectURL(blob);
+					$('#audio').attr('src', downloadUrl);
+					$('#previewModal').modal('show');
+					$('#audio').on('end', function () {
+						URL.revokeObjectURL(downloadUrl); // 释放掉blob URL对象
+					})
+					// var a = document.createElement('a');
+					// a.href = downloadUrl;
+					// a.download = "test.wav"
+					// a.click();
+				})
+				.catch(err => {
+					alert(id + '语音文件生成失败');
+				})
+				.finally(() => {
+					$('#mask').hide();
+					spinner.stop();
+				});
+
+		}
+
+
+		$('table tr').find('td:last').addClass('end');
+
+		var dataname = getUrlKey("dataname");
+
+		var flowNodeId = getUrlKey("flow_node_id")
+
+		var flag_return = getUrlKey("flag_return")
+
+		var tableData;
+
+		var query = window.location.search.substring(1);
+		$.ajax({
+			url: _sys_baseurl + "/Data/List?" + query, success: function (result) {
+				// url: "data/zwgjhtxx810.json", success: function (result) {
+				vueDisplay("#_app_", result);
+
+				// 提示文字 2025/10/13
+				Vue.nextTick(function () {
+					$('.col-tooltips').each(function () {
+						var $div = $(this);
+						if (!$div.attr('data-bs-toggle')) {
+							$div.attr({
+								'data-bs-toggle': 'tooltip',
+								'data-bs-placement': 'top',
+								'title': $div.text().trim()
+							});
+						}
+					});
+
+					// 初始化 tooltip
+					var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+					tooltipTriggerList.map(function (el) { return new bootstrap.Tooltip(el); });
+				});
+				// 提示文字 END
+
+				//设置多选对象
+				$('.selectpicker').each(function (index, domEle) {
+					var arr_value = $(domEle).attr("sel_values").split(",");
+					var len = domEle.options.length;
+					for (i = 0; i < len; i++) {
+						if (jsCommon.in_array(domEle.options[i].value, arr_value)) {
+							domEle.options[i].selected = true;
+						} else {
+							domEle.options[i].selected = false;
+						}
+					}
+
+					$(domEle).selectpicker({
+						'selectedText': 'cat',
+						'noneSelectedText': '请选择',
+						'deselectAllText': '全不选',
+						'selectAllText': '全选'
+					});
+				});
+
+				//自动选择多选对象
+
+				tableData = result.data.datainfo.listContent;
+
+				//后置API接口
+				datalistAfterApi(dataname);
+
+				console.log(result);
+				$(document).find("span[name='span_no']").each(function (index, element) {
+					$(this).html(parseFloat($(this).attr("rowindex")) + parseFloat($(this).attr("rowform")));
+				});
+
+				// 指定列宽
+				function setColumnWidth(tableId, colIndex, width) {
+					var textTable = document.getElementById(tableId);
+					if (!textTable) return;
+
+					// 遍历每一行的指定列
+					var TextTbody = textTable.tBodies[0]; // 只拿 tbody
+					for (var i = 0; i < TextTbody.rows.length; i++) {
+						var cell = TextTbody.rows[i].cells[colIndex];
+						if (cell) {
+							cell.style.width = width;
+							cell.style.minWidth = width;
+							cell.style.maxWidth = width;
+						}
+					}
+				}
+				// 设置第几列的宽度
+				setColumnWidth("data-table", 0, "60px");
+				// setColumnWidth("data-table", 5, "110px");
+				// 指定列宽 END
+
+				// stripHtml(html) {
+				//     var div = document.createElement("div");
+				//     div.innerHTML = html;
+				//     return div.textContent || div.innerText || "";
+				// };
+
+				// table 超过字符换行
+				var textTable = document.getElementById('data-table');
+				var textTableTds = textTable.getElementsByTagName('td');
+
+				// 日期
+				var dateReg = /\d{4}[-\/.]\d{1,2}[-\/.]\d{1,2}(\s+\d{1,2}:\d{1,2}(:\d{1,2})?)?/g;
+
+				for (var i = 0; i < textTableTds.length; i++) {
+					var td = textTableTds[i];
+					var text = td.innerText.trim();
+
+					var tr = td.parentNode;
+					var tdsInRow = tr.getElementsByTagName('td');
+					var isLastCol = (td === tdsInRow[tdsInRow.length - 1]);
+
+					// 最后一列增加样式 0703新增
+					if (isLastCol) {
+						td.classList.add('table-lastcol');
+						continue;
+					}
+
+					// 如果是纯日期
+					if (dateReg.test(text) && text.replace(dateReg, '').trim() === '') {
+						td.classList.add('datewrap');
+						continue;
+					}
+					// 
+					if (text.length > 14) {
+						td.classList.add('textwrap');
+					}
+				}
+				// for (var i = 0; i < textTableTds.length; i++) {
+				// 	if (textTableTds[i].innerText.length > 14) {
+				// 		textTableTds[i].classList.toggle('textwrap');
+				// 	}
+				// };
+
+				// table 左三列 X轴滚动时添加css 
+				const scrolTableDiv = document.getElementById('scrollable');
+				scrolTableDiv.addEventListener('scroll', function () {
+					// 当滚动时，检查scrollLeft的值
+					var leftcoltable = document.querySelector('.col-table');
+					leftcoltable.classList.toggle('col-sticky-bg', this.scrollLeft > 0);
+				});
+
+				// table 左三列设置left的值
+				$('.col-table tr').each(function () {
+					var $ths = $(this).find('th');
+					var width1 = $ths.eq(0).outerWidth();
+					var width2 = $ths.eq(1).outerWidth();
+					var totalWidthTH2 = width1 - 1;
+					var totalWidthTH3 = (width1 + width2) - 1;
+
+					var $tds = $(this).find('td');
+					var width3 = $tds.eq(0).outerWidth();
+					var width4 = $tds.eq(1).outerWidth();
+					var totalWidthTD2 = width3 - 1;
+					var totalWidthTD3 = (width3 + width4) - 1;
+					// console.log(width3, width4,totalWidthTD3)
+
+					// 在第三列的每个<td>元素上添加样式
+					$ths.eq(1).each(function () {
+						$(this).css('left', totalWidthTH2 + 'px');
+					});
+					$tds.eq(1).each(function () {
+						$(this).css('left', totalWidthTD2 + 'px');
+					});
+					$ths.eq(2).each(function () {
+						$(this).css('left', totalWidthTH3 + 'px');
+					});
+					$tds.eq(2).each(function () {
+						$(this).css('left', totalWidthTD3 + 'px');
+					});
+				});
+
+				var resData = result.data;
+				var script = document.createElement("script");
+				script.src = "js/flow/datalist.js";
+				document.head.appendChild(script);
+
+				if (resData.flowNodeTotal != null) {
+					resData.flowNodeTotal.map((item, index) => {
+						if (item.flowNodeId == flowNodeId) {
+							// .addClass('layui-menu-item-checked')
+							console.log(item.flowNodeId == flowNodeId)
+							console.log($("#demo-menu").children().eq(index))
+							$("#demo-menu").children().eq(index).children().eq(1).children().eq(flag_return).addClass('layui-menu-item-checked')
+						}
+					});
+				}
+
+				// 反馈弹出层里的 检查时间
+				var TodaysDate = new Date();
+
+				$('#JCSJ').datetimepicker({
+					defaultDate: TodaysDate,
+					format: 'Y-m-d H:i',
+					closeOnDateSelect: true,	// 选择日期后自动关闭
+					lang: 'zh',
+					step: 5,
+				});
+				//$('#JCSJ').val(TodaysDate.toLocaleString('zh'));
+				// $('#FankuiJCSJDate').val(TodaysDate.toISOString().slice(0, 16).replace('T', ' ')); 
+
+			}
+		});
+
+		//	批量反馈弹出层
+		function openFanKuiModal() {
+			$('#FanKuiModal').modal('show');
+		}
+
+		// setNavSetting()
+
+		// // 设置页面导航展开收缩
+		// function setNavSetting() {
+		// 	var demoMenu = $('#demo-menu').children()
+		// 	console.log(demoMenu)
+		// }
+		window.addEventListener('hashchange', (event) => {
+			window?.parent?.postMessage({ url: window?.location?.href }, '*');
+		})
+
+		//跳转到指定页
+		function goto_page(pageno) {
+			var uri = "datalist.html" + window.location.search;
+			uri = changeURLArg(uri, "pageno", pageno);
+			window.location = uri;
+		}
+
+		//搜索
+		function do_search(obj) {
+			var uri = "datalist.html" + window.location.search;
+			uri = changeURLArg(uri, "pageno", 1);
+
+			var f = obj.form;
+
+			$(f).find('input,select').each(function () {
+				var n = $(this).attr("name");
+				var v = $(this).val();
+
+				if ((n != undefined) && (n != "undefined")) {
+					uri = changeURLArg(uri, n, v);
+				}
+			});
+
+			window.location = uri;
+		}
+
+		//选择全部
+		function checkAllRows(chk) {
+			$("input[name='chk_sel[]']").each(function () {
+				$(this).prop("checked", chk);
+			});
+		}
+
+		//点击查看
+		function rowDblClick(obj) {
+			var pkid = $(obj).find("input[name='chk_sel[]']").val();
+
+			var dataname = getUrlKey("dataname");
+			var arr = new Array("MXZCYXFS", "SDSBXL110KV", "KVSDSBXL",
+				"SDXLXL500", "ZBDMKZ", "ZDDMKZ", "ZB10QFJXJDLHHXZFHKZZ",
+				"DDBHGL", "AZCLKZGL", "ASXMXX", "ASFPGL",
+				"ZDHXTGPCZLC", "ZDHCZDZZDGLLC", "AVCCLGLEPC", "DDJGZZDGZPGL",
+				"AZZZDZQKBS", "AZZZTTGL_JBNR", "AZZZYCJQXBSGL", "BXZZJRLC",
+				"BXZZJXLC", "CTDZDLB", "JBDZSQD", "JBLSDZD",
+				"LBQCJZZJXBBLC", "TSDLXXSBGL", "ZDHXTGZYCGLEPC",
+				"ZDH_LINE_ACCEPT", "ZDH_DEFECT", "ZDHQXCLJL", "ZDHYSHZ", "AVCCLGLEPC", "YXLYXQ", "YXLYBH",
+				"ZDHXQGL", "AZZZTYSP", "CZXX_DDBHGL", "CZXX_ZDHCZDZ", "JXDMKZ", "ZDHGZLLD", "KXKZGL", "GJXHHT",
+				'HXCSQXSQ', 'YYSQ', 'HXCSSQRYXX', 'HXCSQXSQ_SQNR');
+
+			if (jsCommon.in_array(dataname, arr)) {
+				window.open("flowform.html?flow_code=" + dataname + "&data_id=" + pkid);
+			} else if (dataname == "XLZHZJXD") {
+				//线路重合闸检修单，单独处理		
+				window.open("module/bussines/zwdd/XLZHZJXD.html?flow_code=" + dataname + "&data_id=" + pkid);
+			} else if (dataname == "ALARM_DISCONNECTOR_STATISTIC") {
+				let divs = obj.getElementsByTagName("div");
+				let month = divs[1].innerText
+				let voltage = divs[2].innerText
+				window.open("module/bussines/zwdd/disconnector.html?month=" + month + "&voltage=" + voltage);
+			}
+		}
+
+
+		//启动新流程
+		function createNewFlow(flow_code) {
+			var url = _sys_baseurl + "/Flow/Start?flow_code=" + flow_code;
+			$.ajax({
+				type: 'GET',
+				url: url,
+				async: true,
+				processData: false,
+				contentType: false,
+				success: function (data) {
+					do_startflow_suss(data);
+				},
+			});
+		}
+
+		//启动新流程成功回调
+		function do_startflow_suss(data) {
+			if (data.result == "0") {
+				var err_msg = data.err_msg;
+
+				if (err_msg == undefined) {
+					err_msg = "对不起，启动新流程失败！";
+				}
+				alert(err_msg);
+			} else {
+				if (dataname == "XLZHZJXD") {
+					window.open("module/bussines/zwdd/XLZHZJXD.html?flow_instance_id=" + data.data.flowInstanceId);
+				} else {
+					window.open("flowform.html?flow_instance_id=" + data.data.flowInstanceId);
+				}
+			}
+		}
+
+		//导出数据
+		function do_export(obj, pageno) {
+			var query = window.location.search.substring(1);
+			var url = _sys_baseurl + "/Data/List?" + query + "&export_pageno=" + pageno;
+
+			window.open(url);
+		}
+
+		//日期选择
+		function showLaydate(obj) {
+			var objid = obj.getAttribute("id");
+			var f = obj.form;
+
+			laydate({
+				elem: '#' + objid, istime: true, format: 'YYYY-MM-DD',
+				choose: function () {
+					$('#formData').data('bootstrapValidator').updateStatus(objid, 'NOT_VALIDATED', null).validateField(objid);
+				},
+			});
+		}
+
+		//日期选择
+		function showLaydateTime(obj) {
+			var objid = obj.getAttribute("id");
+			var f = obj.form;
+
+			laydate({
+				elem: '#' + objid, istime: true, format: 'YYYY-MM-DD hh:mm',
+				choose: function () {
+					$('#formData').data('bootstrapValidator').updateStatus(objid, 'NOT_VALIDATED', null).validateField(objid);
+				},
+			});
+		}
+		//日期选择datetimepicker
+		$('.datetimepicker').datetimepicker({
+			format: 'Y-m-d H:i',
+			// format:'Y-m-d',
+			lang: 'zh',
+			step: 5,
+		});
+		//数据导入
+		function do_import(obj) {
+			var dataname = getUrlKey("dataname");
+			window.open("importdata.html?dataname=" + dataname);
+		}
+
+		function do_zdhczdz(type) {
+			if (type == 1) {
+				url = "module/bussines/zwgj/deviceWarnInfoCheck.html";
+				window.open_url(url, '', '800px', '500px');
+			} else if (type == 2) {
+				url = "file/正规收文.zip";
+				window.open(url);
+			}
+
+		}
+		function out_phone() {
+			url = "file/配调通讯录模板.xlsx";
+			window.open(url);
+		}
+		function open_url(url, title, x, y) {
+			layer.open({
+				type: 2,
+				title: title,
+				maxmin: true,
+				area: [x, y],
+				content: url,
+				end: function () {
+					//layer.tips('Hi', '#about', {tips: 1})
+				}
+			});
+		}
+
+		// 导出母线电压数据
+		function exportData(obj) {
+			var opts = {
+				lines: 13,// loading小块的数量
+				length: 7, // 小块的长度
+				width: 4, // 小块的宽度
+				radius: 10, // 整个圆形的半径
+				corners: 1, // 小块的圆角，越大则越圆
+				rotate: 0, // loading动画的旋转度数，貌似没什么实际作用
+				color: '#000', // 颜色
+				speed: 1,// 变换速度
+				trail: 60,// 余晖的百分比
+				shadow: true,// 是否渲染出阴影
+			};
+
+			let spinner = new Spinner(opts);
+
+			let instance = axios.create({
+				baseURL: _sys_baseurl,
+				timeout: 240000,
+				responseEncoding: 'utf-8',
+				adapter: 'fetch'
+			});
+			// 响应拦截， 未登录跳转
+			instance.interceptors.response.use(function (response) {
+				let errorCode = response.data['err_code']
+				debugger
+				if (errorCode == '300099') {
+					//重新登录;
+					var url_login = "./login.html?err_code=" + errorCode;
+					if (window.parent.parent) {
+						window.parent.parent.location = url_login;
+					} else if (window.parent) {
+						window.parent.location = url_login;
+					} else {
+						window.location = url_login;
+					}
+				}
+
+				let errorMsg = response.data['err_msg'];
+				if (errorMsg) {
+					alert(errorMsg);
+				}
+				return response;
+			}, function (error) {
+				return Promise.reject(error);
+			})
+
+
+			spinner.spin($('body')[0]);
+			let data = $(obj.form).find('input#ymd').val()
+
+			let formData = new FormData();
+			formData.append('dataName', 'OMS_BUSBAR');
+			formData.append('date', data);
+
+			instance.post('/Data/Export', formData, { responseType: 'blob' }).then(response => {
+				if (response.headers['content-type'] === 'application/json') {
+					let messageBlob = new Blob([response.data], { type: 'application/json' });
+					let fileReader = new FileReader();
+					fileReader.readAsText(messageBlob);
+					fileReader.onload = function (event) {
+						let messageStr = fileReader.result;
+						let message = JSON.parse(messageStr)
+						alert(message["err_msg"]);
+						//重新登录;
+						var url_login = "../../../login.html?err_code=" + message["err_code"];
+						if (window.parent.parent) {
+							window.parent.parent.location = url_login;
+						} else if (window.parent) {
+							window.parent.location = url_login;
+						} else {
+							window.location = url_login;
+						}
+					};
+				} else {
+					// 下载文件
+					let content = response.headers['content-disposition'];
+					let filename = content.substring(content.indexOf('filename=') + 9);
+					filename = decodeURIComponent(filename);
+					var downloadUrl = URL.createObjectURL(response.data);
+					var a = document.createElement('a');
+					a.href = downloadUrl;
+					a.download = filename;
+					a.click();
+					URL.revokeObjectURL(downloadUrl); // 释放掉blob URL对象
+				}
+			})
+				.catch(err => console.log(err))
+				.finally(() => {
+					spinner.stop();
+					$('button').removeAttr('disabled');
+				});
+
+		}
+
+		// 导入主网调控员值班表
+		function importData(obj) {
+			if (!obj.files || obj.files.length == 0) {
+				return;
+			}
+
+			var opts = {
+				lines: 13,// loading小块的数量
+				length: 7, // 小块的长度
+				width: 4, // 小块的宽度
+				radius: 10, // 整个圆形的半径
+				corners: 1, // 小块的圆角，越大则越圆
+				rotate: 0, // loading动画的旋转度数，貌似没什么实际作用
+				color: '#000', // 颜色
+				speed: 1,// 变换速度
+				trail: 60,// 余晖的百分比
+				shadow: true,// 是否渲染出阴影
+			};
+
+			let spinner = new Spinner(opts);
+
+			let instance = axios.create({
+				baseURL: _sys_baseurl,
+				timeout: 240000,
+				responseEncoding: 'utf-8',
+			});
+			// 响应拦截， 未登录跳转
+			instance.interceptors.response.use(function (response) {
+				let errorCode = response.data['err_code']
+				if (errorCode == '300099') {
+					//重新登录;
+					var url_login = "../../../login.html?err_code=" + errorCode;
+					if (window.parent.parent) {
+						window.parent.parent.location = url_login;
+					} else if (window.parent) {
+						window.parent.location = url_login;
+					} else {
+						window.location = url_login;
+					}
+				}
+
+				let errorMsg = response.data['err_msg'];
+				if (errorMsg) {
+					alert(errorMsg);
+				}
+				return response;
+			}, function (error) {
+				return Promise.reject(error);
+			})
+
+
+			spinner.spin($('body')[0]);
+
+			let formData = new FormData();
+			formData.append('file', obj.files[0]);
+			formData.append('cover', $('input[name=cover]:checked').val())
+
+			instance.post('/Zgcx/Duty/Import', formData).then(response => {
+				alert('文件上传成功')
+			})
+				.catch(err => {
+					console.log(err)
+					alert('文件上传失败')
+				})
+				.finally(() => {
+					spinner.stop();
+					$('button').removeAttr('disabled');
+					obj.value = ''
+				});
+
+		}
+
+
+		function checkCall(_this) {
+			let selectedData = [];
+			let i = 0;
+			$("input[name='chk_sel[]']:checked").next().map(function () {
+				selectedData[i++] = tableData[$(this).attr('rowindex')][1]
+			})
+			var opts = {
+				lines: 13,// loading小块的数量
+				length: 7, // 小块的长度
+				width: 4, // 小块的宽度
+				radius: 10, // 整个圆形的半径
+				corners: 1, // 小块的圆角，越大则越圆
+				rotate: 0, // loading动画的旋转度数，貌似没什么实际作用
+				color: '#000', // 颜色
+				speed: 1,// 变换速度
+				trail: 60,// 余晖的百分比
+				shadow: true,// 是否渲染出阴影
+			};
+
+			let spinner = new Spinner(opts);
+
+			let instance = axios.create({
+				baseURL: _sys_baseurl,
+				timeout: 240000,
+				responseEncoding: 'utf-8',
+				adapter: 'fetch'
+			});
+			// 响应拦截， 未登录跳转
+			instance.interceptors.response.use(function (response) {
+				let errorCode = response.data['err_code']
+				if (errorCode == '300099') {
+					//重新登录;
+					var url_login = "../../../login.html?err_code=" + errorCode;
+					if (window.parent.parent) {
+						window.parent.parent.location = url_login;
+					} else if (window.parent) {
+						window.parent.location = url_login;
+					} else {
+						window.location = url_login;
+					}
+				}
+
+				let errorMsg = response.data['err_msg'];
+				if (errorMsg) {
+					alert(errorMsg);
+				}
+				return response;
+			}, function (error) {
+				return Promise.reject(error);
+			})
+
+			spinner.spin($('body')[0]);
+			instance.post('/Zwgj/call/multipart', selectedData)
+				.then(response => { })
+				.catch(err => console.log(err))
+				.finally(() => {
+					spinner.stop();
+					$('button').removeAttr('disabled');
+					// 刷新结果
+					do_search(_this);
+				});
+
+		}
+
+		function reorder(row) {
+			// alert($('input[name="flagSort"]').val());
+			var fldn = row.getAttribute('name');
+			var orderType = $('input[name="orderType"]').val();
+
+			orderType = (orderType == "DESC") ? "ASC" : "DESC";
+			var uri = "datalist.html" + window.location.search;
+			uri = changeURLArg(uri, "pageno", 1);
+			uri = changeURLArg(uri, "orderFldn", fldn);
+			uri = changeURLArg(uri, "orderType", orderType);
+
+			window.location = uri;
+		}
+
+		function deleteAlarm(type, pkId) {
+			let instance = axios.create({
+				baseURL: _sys_baseurl,
+				timeout: 240000,
+				responseEncoding: 'utf-8',
+				adapter: 'fetch'
+			});
+			// 响应拦截， 未登录跳转
+			instance.interceptors.response.use(function (response) {
+				let errorCode = response.data['err_code']
+				if (errorCode == '300099') {
+					//重新登录;
+					var url_login = "../../../login.html?err_code=" + errorCode;
+					if (window.parent.parent) {
+						window.parent.parent.location = url_login;
+					} else if (window.parent) {
+						window.parent.location = url_login;
+					} else {
+						window.location = url_login;
+					}
+				}
+
+				let errorMsg = response.data['err_msg'];
+				if (errorMsg) {
+					alert(errorMsg);
+				}
+				return response;
+			}, function (error) {
+				return Promise.reject(error);
+			});
+			jsCommon.confirm('是否删除本条记录？', () => {
+				instance.get('/disconnector/' + type + '/' + pkId)
+					.then(d => {
+						jsCommon.alert('删除成功')
+						window.location.reload();
+					}).catch((e) => {
+						console.error(e)
+					});
+			}, () => { })
+		}
+
+		function disconnectorStatictic(_this) {
+			let month = _this.form.elements?.find_month?.value;
+			let i = 0;
+			var opts = {
+				lines: 13,// loading小块的数量
+				length: 7, // 小块的长度
+				width: 4, // 小块的宽度
+				radius: 10, // 整个圆形的半径
+				corners: 1, // 小块的圆角，越大则越圆
+				rotate: 0, // loading动画的旋转度数，貌似没什么实际作用
+				color: '#000', // 颜色
+				speed: 1,// 变换速度
+				trail: 60,// 余晖的百分比
+				shadow: true,// 是否渲染出阴影
+			};
+
+			let spinner = new Spinner(opts);
+
+			let instance = axios.create({
+				baseURL: _sys_baseurl,
+				timeout: 240000,
+				responseEncoding: 'utf-8',
+				adapter: 'fetch'
+			});
+			// 响应拦截， 未登录跳转
+			instance.interceptors.response.use(function (response) {
+				let errorCode = response.data['err_code']
+				if (errorCode == '300099') {
+					//重新登录;
+					var url_login = "../../../login.html?err_code=" + errorCode;
+					if (window.parent.parent) {
+						window.parent.parent.location = url_login;
+					} else if (window.parent) {
+						window.parent.location = url_login;
+					} else {
+						window.location = url_login;
+					}
+				}
+
+				let errorMsg = response.data['err_msg'];
+				if (errorMsg) {
+					alert(errorMsg);
+				}
+				return response;
+			}, function (error) {
+				return Promise.reject(error);
+			})
+
+			spinner.spin($('body')[0]);
+			instance.get('/disconnector/statistic?month=' + month)
+				.then(response => { })
+				.catch(err => console.log(err))
+				.finally(() => {
+					spinner.stop();
+					$('button').removeAttr('disabled');
+					// 刷新结果
+					do_search(_this);
+				});
+
+		}
+
+		var verifyCode;
+		function operationAlarm(type, pkId) {
+			let code = changeVerifyCode(5);
+			$('#operationVertifyCommitButton').off('click');
+			$('#operationVertifyCommitButton').on('click', function () {
+				let url = 'dataadd.html?dataname=ALARM_PHONE_LIST&&actiontype=edit&pk_id=' + pkId;
+				checkInputVerifyCode(verifyCode, $('#inputOperationVertifyCode').val())
+					.then(d => {
+						$('#operationVertifyCommitButton').off('click');
+						if (type === 'edit') {
+							$('#operationVerifyModal').modal('hide');
+							window.open(url);
+						} else if (type === 'delete') {
+							jsCommon.deleteTableData('ALARM_PHONE_LIST', pkId);
+						}
+					}).catch((r) => {
+						alert('校验码不正确');
+						changeVerifyCode(4);
+					}).finally(() => {
+						$('#inputOperationVertifyCode').val('');
+					});
+			});
+
+			$('#operationVerifyModal').modal('show');
+		}
+
+		function changeVerifyCode(length) {
+			let code = '';
+			for (let i = 0; i < length; i++) {
+				const r = Math.floor(Math.random() * 36);
+				if (r < 10) {
+					code += r;
+				} else {
+					code += String.fromCharCode(r - 10 + 65);
+				}
+			}
+			const securityCode = document.querySelector('.security-code');
+			securityCode.value = code;
+			// 添加刷新动画
+			securityCode.style.opacity = '0';
+			securityCode.style.transform = 'scale(0.8)';
+
+			setTimeout(() => {
+				securityCode.textContent = code;
+				securityCode.style.opacity = '1';
+				securityCode.style.transform = 'scale(1)';
+			}, 300);
+			verifyCode = code;
+		}
+
+		function checkInputVerifyCode(verifyCode, inputCode) {
+			if (verifyCode === inputCode) {
+				return Promise.resolve(true);
+			} else {
+				return Promise.reject(false);
+			}
+		}
+
+		function openImportModal() {
+			$('#importModal').modal('show');
+		}
+		function sendElink(id) {
+			let _this = this;
+			$.ajax({
+				type: 'GET',
+				url: _sys_baseurl + '/alarm/switch/operation/elink/send?id=' + id,
+				async: true,
+				processData: false,
+				contentType: false,
+				success: function (data) {
+					// 刷新结果
+					do_search(_this);
+				},
+			});
+		}
+
+		function sendSms(id) {
+			let _this = this;
+			$.ajax({
+				type: 'GET',
+				url: _sys_baseurl + '/work/plan/analysis/2/send/message?id=' + id,
+				async: true,
+				processData: false,
+				contentType: false,
+				success: function (data) {
+					// 刷新结果
+					do_search(_this);
+				},
+			});
+		}
+	</script>
+
+</body>
+<style>
+	#mask {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		/* 半透明背景 */
+		z-index: 10000;
+		display: none;
+	}
+</style>
+
+</html>

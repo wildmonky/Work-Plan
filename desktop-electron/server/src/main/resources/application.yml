@@ -1,0 +1,22 @@
+server:
+    max-http-header-size: 600KB
+    port: 8181
+    servlet:
+        context-path: /kemp/ex_web/oms/omsserver
+    shutdown: graceful
+spring:
+    profiles:
+        active: '@profile.active@'
+    task:
+        scheduling:
+            pool:
+                size: 20
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        shutdown:
+            enabled: true
